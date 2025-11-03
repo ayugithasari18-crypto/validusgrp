@@ -119,3 +119,4 @@ document.addEventListener('DOMContentLoaded', fetchBankData); // Panggil saat ha
 copyBtn.addEventListener('click', copyAccount);
 topupInput.addEventListener('input', handleTopupInput);
 confirmBtn.addEventListener('click', handlePaymentConfirmation);
+document.addEventListener('DOMContentLoaded', fetchBankData);
