@@ -3,76 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validus - Pembayaran Isi Ulang</title>
     <link rel="icon" href="https://validusgrp.com/wp-content/themes/validus/favicon.ico" type="image/x-icon">
-    <title>Validus Capital - Akses Anggota</title>
     <link rel="stylesheet" href="stylesheet.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <header>
-        <div class="logo-container">
-            <img src="https://validusgrp.com/wp-content/uploads/2022/04/validus-capital-logo-red.png" alt="Validus Capital Logo" class="logo">
+        <div class="container">
+            <img src="https://validusgrp.com/wp-content/themes/validus/images/validus-logo-white.svg" alt="Validus Logo" class="logo">
         </div>
-        <a href="https://aksesmembership.vercel.app/validus/login" class="btn-masuk">
-            MASUK
-        </a>
     </header>
 
     <main>
-        <section class="rekening-bank-section">
-            <h2>Detail Pembayaran Isi Ulang</h2>
-            
-            <div id="bank-data-container" class="card">
-                <div id="loading-state" class="loading-state active">
-                    <div class="parallax-logo"></div>
-                    <p>Memuat data rekening...</p>
+        <div class="container">
+            <div class="payment-card">
+                <h2>Pembayaran Isi Ulang Saldo</h2>
+                <div class="step-progress">
+                    <span class="step active">1. Transfer Dana</span>
+                    <span class="step">2. Konfirmasi</span>
                 </div>
 
-                <div id="data-rekening" class="data-rekening-details hidden">
-                    <p>Bank: <span id="bank-name"></span></p>
-                    <p>Nama Rekening: <span id="account-holder"></span></p>
-                    <div class="account-number-display">
-                        <p>No. Rekening: <span id="account-number"></span></p>
-                        <button id="copy-btn" class="btn-copy">Salin</button>
+                <div id="payment-details">
+                    <div id="loading-state" class="state active">
+                        <div class="spinner"></div>
+                        <p>Memuat data rekening...</p>
+                    </div>
+
+                    <div id="error-state" class="state hidden">
+                        <p>Gagal memuat data rekening. Silakan coba muat ulang halaman.</p>
+                    </div>
+
+                    <div id="data-rekening" class="data-content hidden">
+                        <p class="section-title">Transfer ke Rekening Tujuan:</p>
+                        
+                        <div class="detail-row">
+                            <span>Nama Bank:</span>
+                            <strong id="bank-name">N/A</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Nama Pemilik:</span>
+                            <strong id="account-holder">N/A</strong>
+                        </div>
+
+                        <p class="section-title margin-top-15">Nomor Rekening:</p>
+                        <div class="account-number-box">
+                            <span id="account-number">N/A</span>
+                            <button id="copy-btn">SALIN</button>
+                        </div>
                     </div>
                 </div>
-
-                <div id="error-state" class="error-state hidden">
-                    <p>Gagal memuat data rekening</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="isi-ulang-section">
-            <h2>Konfirmasi Jumlah Isi Ulang</h2>
-            <div class="card">
-                <label for="topup-amount">Jumlah Isi Ulang (IDR)</label>
-                <input type="text" id="topup-amount" placeholder="Contoh: 100000" inputmode="numeric">
                 
-                <button id="confirm-payment-btn" class="btn-konfirmasi">
-                    SUDAH DIBAYAR
-                </button>
+                <hr>
+
+                <div class="topup-form">
+                    <label for="topup-amount">Jumlah yang Ditransfer:</label>
+                    <input type="text" id="topup-amount" placeholder="Contoh: Rp100.000" inputmode="numeric">
+                    
+                    <button id="confirm-payment-btn" disabled>Menunggu Data Rekening...</button>
+                </div>
+
             </div>
-        </section>
+        </div>
     </main>
 
     <footer>
-    <div class="footer-content">
-        <div class="contact-info">
-            <h3>Contact Us</h3>
-            <p>12 Marina View, #12-02(G), Asia Square Tower 2, Singapore 018961 | <a href="#" target="_blank">View Map</a></p>
-            <p>Operating Hours: Mon – Fri (except holidays) 9am to 6pm</p>
-            <p>General enquiries: <a href="mailto:hr@validusgrp.com">hr@validusgrp.com</a></p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="legal-info">
+                    <p class="optimized-text">
+                        **Validus Investment Holdings Pte Ltd.** (UEN 201803167H) adalah salah satu FinTech terdepan dan terbesar di Asia Tenggara yang mendedikasikan diri untuk menyediakan solusi pembiayaan rantai pasok SME yang **cepat, fleksibel, dan mudah diakses** demi mendorong pertumbuhan bisnis.
+                    </p>
+                    <p class="copyright-text">
+                        Informasi di situs web ini disediakan hanya untuk tujuan umum dan tidak merupakan saran finansial. Kinerja masa lalu tidak menjamin hasil di masa mendatang. Syarat dan Ketentuan lengkap tersedia berdasarkan permohonan. Copyright © 2023 Validus. All rights reserved.
+                    </p>
+                </div>
+            </div>
         </div>
-        
-        <div class="legal-info">
-            <p class="optimized-text">
-                **Validus Investment Holdings Pte Ltd.** (UEN 201803167H) adalah salah satu FinTech terdepan dan terbesar di Asia Tenggara yang mendedikasikan diri untuk menyediakan solusi pembiayaan rantai pasok SME yang **cepat, fleksibel, dan mudah diakses** demi mendorong pertumbuhan bisnis.
-            </p>
-            
-            <p class="copyright-text">
-                Informasi di situs web ini disediakan hanya untuk tujuan umum dan bukan merupakan saran finansial. Kinerja masa lalu tidak menjamin hasil di masa mendatang. Syarat dan Ketentuan lengkap tersedia berdasarkan permohonan. Copyright © 2023 Validus. All rights reserved.
-            </p>
-        </div>
-    </div>
-</footer>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
