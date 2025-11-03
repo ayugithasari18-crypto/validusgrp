@@ -81,28 +81,25 @@ async function fetchBankData() {
         const response = await fetch(API_URL); 
         
         if (!response.ok) {
-            throw new Error(`Gagal Fetch: Status HTTP ${response.status}. Mungkin masalah CORS atau server.`);
+            throw new Error(`[Gagal Jaringan] Status: ${response.status}. Cek URL API atau CORS.`);
         }
         
         const apiResponse = await response.json(); 
 
-        // 1. Cek Status Sukses dari respons API Google Script
+        // 1. Cek Status Sukses dari API
         if (apiResponse.status !== 'sukses' || !apiResponse.data) {
-            throw new Error(`API merespons, tetapi status bukan sukses: ${apiResponse.message || 'Pesan tidak tersedia'}`);
+            console.error("DEBUG API ERROR:", apiResponse.message);
+            throw new Error(`[API Gagal Logika] Pesan: ${apiResponse.message || 'Data API tidak valid/tidak lengkap.'}`);
         }
         
-        const data = apiResponse.data; // Objek data yang berisi informasi rekening
+        const data = apiResponse.data; 
 
         // 2. Tentukan Key Berdasarkan permintaan Anda: 'name', 'number', 'bank'
-        const bankNameKey = 'bank'; 
-        const accountHolderKey = 'name';
+        const accountHolderKey = 'name'; // <-- MENCARI 'name'
         const accountNumberKey = 'number';
+        const bankNameKey = 'bank';       // <-- MENCARI 'bank'
 
-        if (!data[bankNameKey] || !data[accountNumberKey]) {
-            throw new Error('Data rekening tidak lengkap: Pastikan key "bank" atau "number" ada di Apps Script.');
-        }
-        
-        // 3. Tampilkan data
+        // 3. Tampilkan data ke elemen HTML
         document.getElementById('bank-name').textContent = data[bankNameKey];
         document.getElementById('account-holder').textContent = data[accountHolderKey];
         accountNumberSpan.textContent = data[accountNumberKey];
@@ -112,13 +109,15 @@ async function fetchBankData() {
         toggleConfirmButton(true);
 
     } catch (error) {
-        console.error("Kesalahan Pengambilan Data Rekening:", error.message);
+        console.error("FATAL ERROR FETCH DATA:", error.message);
+        
         loadingState.classList.remove('active');
         errorState.classList.remove('hidden');
+        
+        document.getElementById('error-state').innerHTML = `<p>Gagal memuat data rekening</p><small style="color:#ce1126; font-size:0.8em;">${error.message}</small>`;
         confirmBtn.textContent = 'Kesalahan Data';
     }
 }
-
 
 // --- EVENT LISTENERS (Tetap sama) ---
 
