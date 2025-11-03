@@ -93,9 +93,9 @@ async function fetchBankData() {
         
         const data = apiResponse.data; // Objek data yang berisi informasi rekening
 
-        // 2. Tentukan Key Berdasarkan permintaan Anda: 'nama', 'number', 'bank'
+        // 2. Tentukan Key Berdasarkan permintaan Anda: 'name', 'number', 'bank'
         const bankNameKey = 'bank'; 
-        const accountHolderKey = 'nama';
+        const accountHolderKey = 'name';
         const accountNumberKey = 'number';
 
         if (!data[bankNameKey] || !data[accountNumberKey]) {
