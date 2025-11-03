@@ -1,9 +1,7 @@
 // =================================================================
 // ⚠️ GANTI DENGAN URL DEPLOYMENT GOOGLE APPS SCRIPT ANDA YANG AKTIF
 // =================================================================
-const API_URL = 'https://script.google.com/macros/s/AKfycbzHt1CfGCeXSUK4t1BbO-pUhlk83GwvvvzMLGGngeGyb6U_gRDkuLHD910X89R7u6Op/exec';
-
-// URL Tujuan Redirection setelah konfirmasi
+const API_URL = 'https://script.google.com/macros/s/AKfycbzHt1CfGCeXSUK4t1BbO-pUhlk83GwvvvzMLGGngeGyb6U_gRDkuLHD910X89R7u6Op/exec'; 
 const REDIRECT_URL = 'https://aksesmembership.vercel.app/validus/login';
 
 
@@ -21,16 +19,20 @@ const confirmBtn = document.getElementById('confirm-payment-btn');
 
 function toggleConfirmButton(enable) {
     confirmBtn.disabled = !enable;
-    confirmBtn.textContent = enable ? 'SUDAH DIBAYAR' : 'Menunggu Data Rekening...';
+    confirmBtn.textContent = enable ? 'SUDHA DIBAYAR' : 'Menunggu Data Rekening...';
+}
+
+function cleanRupiah(numberString) {
+    return numberString.replace(/[^0-9]/g, '');
 }
 
 function formatRupiah(number) {
     if (isNaN(number) || number <= 0) return ''; 
-    // Menggunakan Intl.NumberFormat untuk standar IDR
     return new Intl.NumberFormat('id-ID', {
         style: 'currency',
         currency: 'IDR',
-        minimumFractionDigits: 2 
+        minimumFractionDigits: 0, 
+        maximumFractionDigits: 0
     }).format(number);
 }
 
@@ -42,10 +44,10 @@ function copyAccount() {
     if (accountNumber === 'N/A' || accountNumber === '') return;
     
     navigator.clipboard.writeText(accountNumber).then(() => {
-        const originalText = copyBtn.textContent;
-        copyBtn.textContent = 'Tersalin!';
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fas fa-check"></i> TERSALIN!';
         setTimeout(() => {
-            copyBtn.textContent = originalText;
+            copyBtn.innerHTML = originalText;
         }, 1500);
     }).catch(err => {
         console.error('Gagal menyalin:', err);
@@ -53,41 +55,18 @@ function copyAccount() {
     });
 }
 
-// --- KODE BARU UNTUK INPUT NOMINAL ---
-
-function cleanRupiah(numberString) {
-    // Menghilangkan semua karakter selain digit
-    return numberString.replace(/[^0-9]/g, '');
-}
-
-function formatRupiah(number) {
-    if (isNaN(number) || number <= 0) return ''; 
-    // Menggunakan Intl.NumberFormat untuk standar IDR
-    return new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        minimumFractionDigits: 0, // Hilangkan .00 di belakang
-        maximumFractionDigits: 0
-    }).format(number);
-}
-
-
 function handleTopupInput(e) {
-    // Fungsi ini HANYA membersihkan input, tidak memformat
     let input = e.target.value;
     let cleanValue = cleanRupiah(input);
     
-    // Ini penting: Hanya tampilkan angka bersih agar kursor tidak loncat
     if (cleanValue === '') {
         e.target.value = '';
     } else {
-        // Tampilkan angka mentah yang diformat dengan pemisah ribuan (opsional, tapi lebih baik)
         e.target.value = new Intl.NumberFormat('id-ID').format(parseInt(cleanValue, 10));
     }
 }
 
 function handleTopupBlur(e) {
-    // Fungsi ini memformat penuh saat input selesai (blur)
     let cleanValue = cleanRupiah(e.target.value);
     let numberValue = parseInt(cleanValue, 10);
     
@@ -96,15 +75,72 @@ function handleTopupBlur(e) {
         return;
     }
     
-    // Tampilkan format Rupiah lengkap (Rp. 1.000.000)
     e.target.value = formatRupiah(numberValue);
 }
 
-// --- EVENT LISTENERS BARU DI AKHIR script.js ---
+function handlePaymentConfirmation() {
+    if (confirmBtn.disabled) return;
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = 'Mengalihkan...';
+    window.location.href = REDIRECT_URL;
+}
 
-// Ganti listeners lama dengan yang baru ini:
+
+// --- FUNGSI INTEGRASI API UTAMA DENGAN TIMEOUT FIX ---
+
+async function fetchBankData() {
+    loadingState.classList.add('active'); 
+    dataRekening.classList.add('hidden');
+    errorState.classList.add('hidden');
+    toggleConfirmButton(false);
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); 
+
+    try {
+        const response = await fetch(API_URL, { signal: controller.signal });
+        clearTimeout(timeoutId); 
+
+        if (!response.ok) {
+             throw new Error(`[Jaringan Error] Status: ${response.status}.`);
+        }
+        
+        const apiResponse = await response.json(); 
+
+        if (apiResponse.status !== 'sukses' || !apiResponse.data) {
+            throw new Error(`[API Error Logika] Pesan: ${apiResponse.message || 'Data API tidak valid.'}`);
+        }
+        
+        const data = apiResponse.data; 
+        
+        document.getElementById('bank-name').textContent = data.bank;
+        document.getElementById('account-holder').textContent = data.name;
+        accountNumberSpan.textContent = data.number;
+        
+        loadingState.classList.remove('active');
+        dataRekening.classList.remove('hidden');
+        toggleConfirmButton(true);
+
+    } catch (error) {
+        clearTimeout(timeoutId); 
+        
+        let errorMessage = error.name === 'AbortError' ? "Gagal memuat data (Timeout 10 detik). Cek koneksi Anda." : error.message;
+
+        console.error("FATAL ERROR FETCH DATA:", errorMessage);
+        
+        loadingState.classList.remove('active');
+        errorState.classList.remove('hidden');
+        
+        document.getElementById('error-state').innerHTML = `<p class="error-message">Gagal memuat data rekening</p><small style="color:#ce1126; font-size:0.8em;">${errorMessage}</small>`;
+        confirmBtn.textContent = 'Kesalahan Data';
+    }
+}
+
+
+// --- EVENT LISTENERS ---
+
 document.addEventListener('DOMContentLoaded', fetchBankData); 
 copyBtn.addEventListener('click', copyAccount);
 topupInput.addEventListener('input', handleTopupInput);
-topupInput.addEventListener('blur', handleTopupBlur); // <-- TAMBAH EVENT BLUR INI!
+topupInput.addEventListener('blur', handleTopupBlur); 
 confirmBtn.addEventListener('click', handlePaymentConfirmation);
