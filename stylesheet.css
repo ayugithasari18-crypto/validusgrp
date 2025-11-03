@@ -1,7 +1,6 @@
 /* ROOT VARIABLES & DARK MODE */
 :root {
-    /* Light Theme */
-    --color-primary: #ce1126; 
+    --color-primary: #ce1126; /* Merah Validus */
     --color-secondary: #007bff; 
     --color-success: #28a745; 
     --color-bg: #f8f8f8;
@@ -26,7 +25,7 @@
     --color-footer-text: #aaaaaa;
 }
 
-/* RESET DASAR & FONT */
+/* GLOBAL STYLES & RESET */
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
@@ -36,10 +35,10 @@ body {
     line-height: 1.6;
     overflow-x: hidden; 
     box-sizing: border-box; 
-    transition: background-color 0.3s, color 0.3s; 
+    transition: background-color 0.3s, color 0.3s;
 }
-*, *::before, *::after {
-    box-sizing: inherit;
+* {
+    box-sizing: border-box;
 }
 a {
     color: var(--color-primary);
@@ -56,7 +55,7 @@ a {
 /* HEADER & CONTROLS */
 header {
     background-color: var(--color-bg-card); 
-    padding: 15px 0;
+    padding: 12px 0; 
     border-bottom: 2px solid var(--color-primary); 
     box-shadow: 0 1px 5px rgba(0,0,0,0.1);
 }
@@ -67,10 +66,14 @@ header {
     align-items: center;
 }
 
+.header-logo {
+    height: 30px;
+}
+
 .header-controls {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px; 
 }
 
 .control-button, .control-select {
@@ -78,7 +81,7 @@ header {
     border: 1px solid var(--color-border);
     cursor: pointer;
     color: var(--color-text);
-    padding: 8px 10px;
+    padding: 7px 10px;
     border-radius: 4px;
     transition: background-color 0.2s, border-color 0.2s;
     font-size: 0.9em;
@@ -86,9 +89,9 @@ header {
 }
 
 .control-select {
-    appearance: none; /* Hilangkan default arrow di beberapa browser */
+    appearance: none; 
     padding-right: 25px; 
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M5.5 8.5l4.5 4.5 4.5-4.5z" fill="%23333"/></svg>'); /* Custom arrow */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M5.5 8.5l4.5 4.5 4.5-4.5z" fill="%23333"/></svg>'); 
     background-repeat: no-repeat;
     background-position: right 8px center;
     background-size: 10px;
@@ -97,14 +100,20 @@ header {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M5.5 8.5l4.5 4.5 4.5-4.5z" fill="%23e0e0e0"/></svg>');
 }
 
-.control-button:hover, .control-select:hover {
-    background-color: rgba(200, 200, 200, 0.5);
+.login-button {
+    background-color: var(--color-primary); 
+    color: white;
+    padding: 7px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
 }
-
-[data-theme="dark"] .control-button:hover, [data-theme="dark"] .control-select:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+.login-button:hover {
+    background-color: #a30e1f;
 }
-
 
 /* KONTEN UTAMA & CARD */
 main {
@@ -114,21 +123,91 @@ main {
 .payment-card {
     background: var(--color-bg-card);
     padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
+    border-radius: 10px; 
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); 
     max-width: 450px;
     margin: 0 auto;
     transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-/* Kerapihan State Container */
-#payment-details {
-    min-height: 200px; /* Menjaga tinggi agar tampilan tidak bergeser */
-    position: relative;
+.security-lock-status {
+    color: var(--color-success); 
+    font-size: 0.9em;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.card-title {
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-border);
     padding-bottom: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 700;
+}
+
+/* PROGRESS BAR */
+.elegant-step-progress {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 0 auto;
+    width: 45%; 
+}
+
+.step-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--color-border);
+    color: var(--color-bg-card);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.step-label {
+    margin-top: 5px;
+    font-size: 0.85em;
+    text-align: center;
+    color: var(--color-text-secondary);
+}
+
+.step-item.active .step-icon {
+    background-color: var(--color-primary);
+    color: white;
+}
+.step-item.active .step-label {
+    color: var(--color-primary);
+    font-weight: 500;
+}
+
+.step-separator {
+    flex-grow: 1;
+    height: 2px;
+    background-color: var(--color-border);
+    margin: 0 5px;
+}
+
+/* STATE CONTAINER - CRITICAL FIX: Mengatasi Tumpang Tindih */
+#payment-details {
+    min-height: 200px; 
+    position: relative; /* Penting: Kontainer Relatif */
+    padding-bottom: 10px;
+    margin-bottom: 15px;
 }
 .state, .data-content {
-    /* Penting untuk memastikan hanya 1 yang terlihat */
+    /* Penting: Anak-anak Absolut di dalam kontainer Relatif */
     position: absolute;
     width: 100%;
     top: 0;
@@ -136,16 +215,71 @@ main {
     transition: opacity 0.3s;
 }
 .hidden {
-    display: none !important; 
+    display: none !important; /* Gunakan !important untuk memastikan hidden */
 }
 
+/* LOADING & ERROR STYLES */
+#loading-state, #error-state {
+    text-align: center;
+    padding: 30px 0;
+}
+.modern-spinner {
+    border-left-color: var(--color-primary); 
+    /* Sisanya styling spinner bisa ditambahkan di sini jika belum ada */
+}
+.loading-message, .error-message {
+    margin-top: 15px;
+    font-weight: 500;
+}
 
-/* Detail Rekening */
+/* DATA REKENING STYLES */
+.section-title {
+    color: var(--color-text-secondary);
+    font-size: 0.8em;
+    font-weight: 500;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+.margin-top-15 {
+    margin-top: 15px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--color-border);
+    font-size: 0.95em;
+}
+
+/* NOMOR REKENING BOX - FIXED */
 .account-number-box {
-    /* ... (gaya tetap sama) ... */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-bg-input); 
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 1.2em;
+    font-weight: 700;
+    color: var(--color-text);
 }
+
 #copy-btn {
-    /* ... (gaya tetap sama) ... */
+    background-color: var(--color-success); 
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8em;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    white-space: nowrap; /* Penting untuk mencegah wrapping tombol */
+}
+#copy-btn:hover {
+    background-color: #218838;
 }
 
 /* WAKTU PEMROSESAN */
@@ -153,9 +287,28 @@ main {
     background-color: var(--color-bg-input);
     border-left: 4px solid var(--color-secondary); 
     color: var(--color-text-secondary);
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    margin-top: 15px;
 }
 
-/* Form Nominal */
+/* SEPARATOR */
+.card-separator {
+    border: 0;
+    height: 1px;
+    background-color: var(--color-border);
+    margin: 20px 0;
+}
+
+/* FORM NOMINAL & COPY BUTTON - FIXED */
+.topup-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+}
+
 .nominal-input-group {
     display: flex;
     gap: 10px; 
@@ -164,42 +317,74 @@ main {
 #topup-amount {
     flex-grow: 1; 
     padding: 12px;
-    border: 1px solid var(--color-border);
-    border-radius: 4px;
-    box-sizing: border-box; 
+    border: 2px solid var(--color-border); 
+    border-radius: 6px;
     font-size: 1.2em;
     text-align: right;
     font-weight: 700;
     color: var(--color-text);
     min-width: 100px; 
-    background-color: var(--color-bg-card); /* Penting untuk dark mode */
+    background-color: var(--color-bg-card); 
+    transition: border-color 0.2s;
 }
+
 .copy-amount-btn {
     background-color: var(--color-secondary); 
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    white-space: nowrap; /* FIX: Mencegah wrapping tombol */
+}
+.copy-amount-btn:hover {
+    background-color: #0056b3;
 }
 
-/* GAYA TOMBOL KONFIRMASI MENTOR */
-.mentor-confirmation-section {
-    background-color: rgba(0, 123, 255, 0.1); 
-    border: 1px solid var(--color-secondary);
+/* TRANSFER CHECKLIST & TOMBOL LANJUTKAN */
+.transfer-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0 30px;
+}
+.transfer-checklist li {
+    margin-bottom: 8px;
+    font-size: 0.9em;
+    display: flex;
+    align-items: flex-start;
+}
+.transfer-checklist li i {
+    color: var(--color-success); 
+    margin-right: 8px;
+    margin-top: 3px;
+}
+
+.confirm-button {
+    display: block;
+    background-color: #25d366; 
     /* ... (gaya tetap sama) ... */
 }
-[data-theme="dark"] .mentor-confirmation-section {
-    background-color: rgba(0, 123, 255, 0.2); 
-    border: 1px solid rgba(0, 123, 255, 0.5);
-}
-
-/* FOOTER (Sudah rapi) */
-footer {
+.continue-button {
+    display: block;
+    background-color: var(--color-primary); 
     /* ... (gaya tetap sama) ... */
 }
+.continue-button.disabled {
+    background-color: var(--color-border); 
+    color: var(--color-text-secondary);
+    cursor: not-allowed;
+    pointer-events: none;
+}
 
+/* FOOTER & WHATSAPP FLOAT (Gaya tetap sama) */
 
 /* RESPONSIVENESS */
 @media (max-width: 480px) {
     .header-controls {
         gap: 5px;
-        /* Perbaikan: Atur ukuran font/padding control di mobile */
     }
     .control-button, .control-select, .login-button {
         padding: 6px 8px; 
