@@ -78,13 +78,18 @@
 
                 <div class="topup-form">
                     <label for="topup-amount">Jumlah yang Akan Ditransfer:</label>
-                    <input type="text" id="topup-amount" placeholder="Minimal Rp10.000" inputmode="numeric">
                     
+                    <div class="nominal-input-group">
+                        <input type="text" id="topup-amount" placeholder="Minimal Rp10.000" inputmode="numeric">
+                        
+                        <button id="copy-amount-btn" class="copy-amount-btn"><i class="fas fa-copy"></i> SALIN</button>
+                    </div>
+
                     <a id="continue-button" class="continue-button disabled" href="#">
                         <i class="fas fa-sign-in-alt"></i> LANJUTKAN KE PLATFORM
                     </a>
                     <p class="note-transfer-auto">
-                        <i class="fas fa-exclamation-circle"></i> Catatan: Saldo akan terisi otomatis setelah transfer terverifikasi (maks 15 menit).
+                        <i class="fas fa-exclamation-circle"></i> Catatan: Saldo akan terisi otomatis setelah transfer terverifikasi (maks 15 menit) Kirimkan bukti transaksi kepada Mentor Guru agar agar saldo lebih cepat terverifikasi.
                     </p>
                 </div>
 
