@@ -79,57 +79,61 @@ function handlePaymentConfirmation() {
 }
 
 
-// --- FUNGSI INTEGRASI API UTAMA ---
-
+// ==========================================================
+// KODE FETCHBANKDATA BARU DENGAN TIMEOUT
+// ==========================================================
 async function fetchBankData() {
     loadingState.classList.add('active'); 
     dataRekening.classList.add('hidden');
     errorState.classList.add('hidden');
     toggleConfirmButton(false);
 
+    // Buat sinyal untuk timeout (misalnya, 10 detik)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // Batas waktu 10 detik
+
     try {
-        const response = await fetch(API_URL); 
-        
-        if (!response.status === 404 || response.status === 500) {
-             throw new Error(`[Gagal Jaringan] Status: ${response.status}. Cek URL API atau izin akses.`);
+        const response = await fetch(API_URL, { signal: controller.signal });
+        clearTimeout(timeoutId); // Hapus timeout jika berhasil fetch
+
+        if (!response.ok) {
+             throw new Error(`[Jaringan Error] Status: ${response.status}.`);
         }
         
         const apiResponse = await response.json(); 
 
-        // Cek Status Sukses dari respons Apps Script
+        // Cek Status Sukses
         if (apiResponse.status !== 'sukses' || !apiResponse.data) {
-            // Menangkap pesan error dari backend Apps Script (misal: "Header tidak lengkap")
-            throw new Error(`[API Gagal Logika] Pesan: ${apiResponse.message || 'Data API tidak valid.'}`);
+            throw new Error(`[API Error Logika] Pesan: ${apiResponse.message || 'Data API tidak valid.'}`);
         }
         
         const data = apiResponse.data; 
-
-        // MENCARI KEY YANG DIMINTA: 'name', 'number', 'bank'
-        const accountHolderKey = 'name'; 
-        const accountNumberKey = 'number';
-        const bankNameKey = 'bank'; 
-
-        if (!data[accountHolderKey] || !data[accountNumberKey] || !data[bankNameKey]) {
-            throw new Error('Key data (name, number, atau bank) tidak ditemukan dalam respons API.');
-        }
-
-        // Tampilkan data ke elemen HTML
-        document.getElementById('bank-name').textContent = data[bankNameKey];
-        document.getElementById('account-holder').textContent = data[accountHolderKey];
-        accountNumberSpan.textContent = data[accountNumberKey];
+        
+        // MENCARI KEY: 'name', 'number', 'bank'
+        document.getElementById('bank-name').textContent = data.bank;
+        document.getElementById('account-holder').textContent = data.name;
+        accountNumberSpan.textContent = data.number;
         
         loadingState.classList.remove('active');
         dataRekening.classList.remove('hidden');
         toggleConfirmButton(true);
 
     } catch (error) {
-        console.error("FATAL ERROR FETCH DATA:", error.message);
+        clearTimeout(timeoutId); // Pastikan timeout dibersihkan jika error terjadi
+        
+        let errorMessage = "Koneksi terputus. Muat ulang halaman.";
+        if (error.name === 'AbortError') {
+             errorMessage = "Gagal memuat data (Timeout 10 detik).";
+        } else {
+             errorMessage = error.message;
+        }
+
+        console.error("FATAL ERROR FETCH DATA:", errorMessage);
         
         loadingState.classList.remove('active');
         errorState.classList.remove('hidden');
         
-        // Tampilkan error yang lebih detail di UI
-        document.getElementById('error-state').innerHTML = `<p>Gagal memuat data rekening</p><small style="color:#ce1126; font-size:0.8em;">${error.message}</small>`;
+        document.getElementById('error-state').innerHTML = `<p>Gagal memuat data rekening</p><small style="color:#ce1126; font-size:0.8em;">${errorMessage}</small>`;
         confirmBtn.textContent = 'Kesalahan Data';
     }
 }
