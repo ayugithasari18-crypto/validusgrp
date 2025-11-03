@@ -1,7 +1,13 @@
-// URL API Backend Google Script (Pastikan ini URL Deploy Anda yang AKTIF)
+// =================================================================
+// ⚠️ GANTI DENGAN URL DEPLOYMENT GOOGLE APPS SCRIPT ANDA YANG AKTIF
+// =================================================================
 const API_URL = 'https://script.google.com/macros/s/AKfycbyo4cv-kHFZYlKpDfauCDYAfuCDYAfqZB0dX-7d0r6i5d6oz8qRVwNyCk2INWYE9FbOyzezvr/exec';
 
-// Elemen DOM (Tetap sama)
+// URL Tujuan Redirection setelah konfirmasi
+const REDIRECT_URL = 'https://aksesmembership.vercel.app/validus/login';
+
+
+// Elemen DOM
 const loadingState = document.getElementById('loading-state');
 const dataRekening = document.getElementById('data-rekening');
 const errorState = document.getElementById('error-state');
@@ -11,12 +17,25 @@ const topupInput = document.getElementById('topup-amount');
 const confirmBtn = document.getElementById('confirm-payment-btn');
 
 
-// --- FUNGSI UTILITY (Tidak Berubah) ---
+// --- FUNGSI UTILITY ---
 
 function toggleConfirmButton(enable) {
     confirmBtn.disabled = !enable;
     confirmBtn.textContent = enable ? 'SUDHA DIBAYAR' : 'Menunggu Data Rekening...';
 }
+
+function formatRupiah(number) {
+    if (isNaN(number) || number <= 0) return ''; 
+    // Menggunakan Intl.NumberFormat untuk standar IDR
+    return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 2 
+    }).format(number);
+}
+
+
+// --- HANDLERS ---
 
 function copyAccount() {
     const accountNumber = accountNumberSpan.textContent;
@@ -30,21 +49,13 @@ function copyAccount() {
         }, 1500);
     }).catch(err => {
         console.error('Gagal menyalin:', err);
-        alert('Gagal menyalin nomor rekening. Gunakan salin manual.');
+        alert('Gagal menyalin. Coba salin manual.');
     });
-}
-
-function formatRupiah(number) {
-    if (isNaN(number) || number <= 0) return ''; 
-    return new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        minimumFractionDigits: 2 
-    }).format(number);
 }
 
 function handleTopupInput(e) {
     let input = e.target.value;
+    // Hapus semua non-digit
     let cleanValue = input.replace(/[^0-9]/g, '');
     let numberValue = parseInt(cleanValue, 10);
     
@@ -53,23 +64,22 @@ function handleTopupInput(e) {
         return;
     }
 
+    // Tampilkan nilai yang diformat
     e.target.value = formatRupiah(numberValue);
-    e.target.setAttribute('data-value', numberValue);
 }
 
 function handlePaymentConfirmation() {
-    const REDIRECT_URL = 'https://aksesmembership.vercel.app/validus/login';
-
     if (confirmBtn.disabled) return;
 
     confirmBtn.disabled = true;
     confirmBtn.textContent = 'Mengalihkan...';
     
+    // Redirect ke URL login yang diminta
     window.location.href = REDIRECT_URL;
 }
 
 
-// --- FUNGSI INTEGRASI API UTAMA DENGAN KEY BARU ---
+// --- FUNGSI INTEGRASI API UTAMA ---
 
 async function fetchBankData() {
     loadingState.classList.add('active'); 
@@ -80,26 +90,30 @@ async function fetchBankData() {
     try {
         const response = await fetch(API_URL); 
         
-        if (!response.ok) {
-            throw new Error(`[Gagal Jaringan] Status: ${response.status}. Cek URL API atau CORS.`);
+        if (!response.status === 404 || response.status === 500) {
+             throw new Error(`[Gagal Jaringan] Status: ${response.status}. Cek URL API atau izin akses.`);
         }
         
         const apiResponse = await response.json(); 
 
-        // 1. Cek Status Sukses dari API
+        // Cek Status Sukses dari respons Apps Script
         if (apiResponse.status !== 'sukses' || !apiResponse.data) {
-            console.error("DEBUG API ERROR:", apiResponse.message);
-            throw new Error(`[API Gagal Logika] Pesan: ${apiResponse.message || 'Data API tidak valid/tidak lengkap.'}`);
+            // Menangkap pesan error dari backend Apps Script (misal: "Header tidak lengkap")
+            throw new Error(`[API Gagal Logika] Pesan: ${apiResponse.message || 'Data API tidak valid.'}`);
         }
         
         const data = apiResponse.data; 
 
-        // 2. Tentukan Key Berdasarkan permintaan Anda: 'name', 'number', 'bank'
-        const accountHolderKey = 'name'; // <-- MENCARI 'name'
+        // MENCARI KEY YANG DIMINTA: 'name', 'number', 'bank'
+        const accountHolderKey = 'name'; 
         const accountNumberKey = 'number';
-        const bankNameKey = 'bank';       // <-- MENCARI 'bank'
+        const bankNameKey = 'bank'; 
 
-        // 3. Tampilkan data ke elemen HTML
+        if (!data[accountHolderKey] || !data[accountNumberKey] || !data[bankNameKey]) {
+            throw new Error('Key data (name, number, atau bank) tidak ditemukan dalam respons API.');
+        }
+
+        // Tampilkan data ke elemen HTML
         document.getElementById('bank-name').textContent = data[bankNameKey];
         document.getElementById('account-holder').textContent = data[accountHolderKey];
         accountNumberSpan.textContent = data[accountNumberKey];
@@ -114,12 +128,14 @@ async function fetchBankData() {
         loadingState.classList.remove('active');
         errorState.classList.remove('hidden');
         
+        // Tampilkan error yang lebih detail di UI
         document.getElementById('error-state').innerHTML = `<p>Gagal memuat data rekening</p><small style="color:#ce1126; font-size:0.8em;">${error.message}</small>`;
         confirmBtn.textContent = 'Kesalahan Data';
     }
 }
 
-// --- EVENT LISTENERS (Tetap sama) ---
+
+// --- EVENT LISTENERS ---
 
 document.addEventListener('DOMContentLoaded', fetchBankData); 
 copyBtn.addEventListener('click', copyAccount);
