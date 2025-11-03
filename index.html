@@ -35,9 +35,9 @@
                         <span class="step-label">1. Transfer Dana</span>
                     </div>
                     <div class="step-separator"></div>
-                    <div class="step-item">
-                        <div class="step-icon"><i class="fas fa-check-circle"></i></div>
-                        <span class="step-label">2. Konfirmasi Pembayaran</span>
+                    <div class="step-item active"> 
+                        <div class="step-icon"><i class="fas fa-external-link-alt"></i></div>
+                        <span class="step-label">2. Akses Platform</span>
                     </div>
                 </div>
 
@@ -76,11 +76,16 @@
                 
                 <hr class="card-separator">
 
-                <div class="topup-form">
-                    <label for="topup-amount">Jumlah yang Akan Ditransfer:</label>
-                    <input type="text" id="topup-amount" placeholder="Minimal Rp10.000" inputmode="numeric">
-                    
-                    <button id="confirm-payment-btn" disabled>Menunggu Data Rekening...</button>
+                <div class="instruction-box">
+                    <p class="instruction-header"><i class="fas fa-info-circle"></i> **PENTING: PETUNJUK TRANSFER**</p>
+                    <ul class="instruction-list">
+                        <li>Lakukan transfer sesuai nominal yang Anda inginkan ke **Nomor Rekening Tujuan** di atas.</li>
+                        <li>**Tidak perlu** memasukkan konfirmasi nominal di halaman ini.</li>
+                        <li>Saldo akan otomatis terisi dalam **maksimal 15 menit** setelah transfer Anda terverifikasi oleh sistem.</li>
+                    </ul>
+                    <a href="https://aksesmembership.vercel.app/validus/login" class="continue-button">
+                        <i class="fas fa-sign-in-alt"></i> SAYA SUDAH TRANSFER, LANJUTKAN KE PLATFORM
+                    </a>
                 </div>
 
             </div>
