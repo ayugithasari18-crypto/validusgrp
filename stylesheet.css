@@ -10,23 +10,45 @@ body {
 
 .container {
     width: 90%;
-    max-width: 600px;
+    max-width: 1200px; /* Lebar kontainer lebih besar untuk footer */
     margin: 0 auto;
 }
 
 /* HEADER */
 header {
-    background-color: #007bff; /* Biru khas */
+    background-color: #ffffff; /* Latar putih untuk header */
     padding: 15px 0;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.logo {
-    height: 40px; /* Logo lebih besar */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-logo {
+    height: 40px; 
     display: block;
 }
 
-/* KONTEN UTAMA & CARD */
+.login-button {
+    background-color: #ce1126; /* Merah Validus */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease;
+}
+
+.login-button:hover {
+    background-color: #a30e20;
+}
+
+/* KONTEN UTAMA & CARD (Tidak banyak berubah dari sebelumnya) */
 main {
     padding: 40px 0;
 }
@@ -103,7 +125,7 @@ main {
 }
 
 #copy-btn {
-    background-color: #28a745; /* Hijau */
+    background-color: #28a745; 
     color: white;
     border: none;
     padding: 8px 15px;
@@ -180,33 +202,181 @@ main {
     cursor: not-allowed;
 }
 
-/* FOOTER */
+
+/* --- FOOTER BARU SESUAI GAMBAR --- */
 footer {
-    background-color: #333;
-    color: #fff;
-    padding: 20px 0;
+    background-color: #1a1a1a; /* Latar gelap untuk footer */
+    color: #f0f0f0;
+    padding: 40px 0 0; /* Padding atas lebih besar */
     font-size: 0.9em;
 }
 
-.footer-content {
-    padding-top: 10px;
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Tiga kolom utama */
+    gap: 30px; /* Jarak antar kolom */
+    padding-bottom: 30px;
+    border-bottom: 1px solid #333; /* Garis pemisah */
 }
 
-.optimized-text {
-    font-size: 0.85em; /* Teks komersial */
+.footer-column {
+    margin-bottom: 20px;
+}
+
+.footer-logo img {
+    max-width: 150px; /* Ukuran logo di footer */
+    margin-bottom: 20px;
+}
+
+footer h4 {
+    color: #fff;
+    font-size: 1.1em;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Contact Info Column */
+.contact-info-column .footer-address {
+    font-style: normal;
     margin-bottom: 15px;
+    line-height: 1.5;
     color: #ccc;
 }
 
-.copyright-text {
-    font-size: 0.75em; /* Teks legal/hak cipta kecil */
-    margin-top: 10px;
-    opacity: 0.7;
-    border-top: 1px solid #444;
-    padding-top: 10px;
+.contact-info-column .footer-address i {
+    color: #ce1126; /* Warna ikon lokasi */
+    margin-right: 8px;
 }
 
-/* Responsif */
+.contact-info-column a {
+    color: #ce1126; /* Warna link di kontak */
+    text-decoration: none;
+}
+
+.contact-info-column a:hover {
+    text-decoration: underline;
+}
+
+.contact-details h5 {
+    font-size: 0.95em;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    color: #fff;
+}
+.contact-details p {
+    margin-bottom: 10px;
+    color: #ccc;
+}
+
+
+/* Quick Links & Useful Links Columns */
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: #ce1126; /* Warna link */
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.footer-socials {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.footer-socials li {
+    display: inline-block; /* Agar ikon sosial sejajar */
+    margin-right: 15px;
+}
+
+.footer-socials a {
+    color: #ccc;
+    font-size: 1.1em;
+    text-decoration: none;
+}
+.footer-socials a i {
+    margin-right: 5px;
+    color: #ce1126; /* Warna ikon LinkedIn */
+}
+.footer-socials a:hover {
+    color: #fff;
+}
+
+
+/* Footer Bottom Bar (Copyright) */
+.footer-bottom-bar {
+    background-color: #000000; /* Latar hitam untuk copyright */
+    padding: 20px 0;
+    margin-top: 30px; /* Jarak dengan bagian atas footer */
+    font-size: 0.75em;
+    line-height: 1.4;
+    color: #aaa;
+}
+
+.footer-copyright-text {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+.footer-copyright-text br { /* Pastikan br tetap bekerja */
+    margin-bottom: 0.5em; 
+    content: " " !important;
+    display: block !important;
+}
+
+/* --- RESPONSIF --- */
+@media (max-width: 991px) {
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr); /* Dua kolom di tablet */
+    }
+    .footer-column.links-column {
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-logo {
+        height: 35px;
+    }
+    .login-button {
+        padding: 8px 15px;
+        font-size: 0.85em;
+    }
+    .payment-card h2 {
+        font-size: 1.5em;
+    }
+    .footer-grid {
+        grid-template-columns: 1fr; /* Satu kolom di mobile */
+        text-align: center;
+    }
+    .footer-logo {
+        text-align: center;
+    }
+    .footer-column h4 {
+        margin-top: 30px;
+    }
+    .footer-address {
+        padding: 0 10px;
+    }
+    .footer-socials {
+        justify-content: center;
+        display: flex; /* Tengahkan sosial media */
+    }
+}
+
 @media (max-width: 480px) {
     .payment-card {
         padding: 20px;
@@ -218,5 +388,8 @@ footer {
     #copy-btn {
         width: 100%;
         margin-top: 10px;
+    }
+    .header-logo {
+        height: 30px;
     }
 }
