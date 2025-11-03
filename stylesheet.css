@@ -149,8 +149,9 @@ main {
     padding: 30px 0;
 }
 
-.state.hidden {
-    display: none;
+/* FIX UTAMA: Pastikan .hidden benar-benar menyembunyikan elemen */
+.hidden {
+    display: none !important; 
 }
 
 .modern-spinner {
