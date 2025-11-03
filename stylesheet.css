@@ -1,199 +1,222 @@
-/* PENGATURAN FONT GLOBAL */
+/* RESET DASAR & FONT */
 body {
-    font-family: 'Open Sans', 'Helvetica', 'Arial', sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f7f7f7; /* Sedikit off-white agar elemen putih menonjol */
+    background-color: #f4f7f6;
     color: #333;
     line-height: 1.6;
 }
 
-/* WARNA UTAMA */
-:root {
-    --primary-red: #CE1126; /* Merah Validus */
-    --white: #ffffff;
-    --grey-dark: #333;
-    --grey-light: #e0e0e0;
+.container {
+    width: 90%;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 /* HEADER */
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 5%;
-    background-color: var(--white);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    background-color: #007bff; /* Biru khas */
+    padding: 15px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* HEADER (Revisi Ukuran Logo) */
 .logo {
-    height: 40px; /* Ukuran logo diperbesar (sebelumnya 30px) */
+    height: 40px; /* Logo lebih besar */
+    display: block;
 }
 
-.btn-masuk {
-    background-color: var(--primary-red);
-    color: var(--white);
-    padding: 8px 20px;
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
-.btn-masuk:hover {
-    background-color: #b50f20;
-}
-
-/* MAIN CONTENT */
+/* KONTEN UTAMA & CARD */
 main {
-    padding: 40px 5%;
-    max-width: 900px;
-    margin: 0 auto;
+    padding: 40px 0;
 }
 
-.card {
-    background-color: var(--white);
-    padding: 25px;
-    margin-top: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+.payment-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* REKENING BANK SECTION */
-.account-number-display {
+.payment-card h2 {
+    color: #007bff;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 15px;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+/* Step Progress Bar */
+.step-progress {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    font-size: 0.9em;
+}
+
+.step {
+    color: #aaa;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.step.active {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.step.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #007bff;
+}
+
+/* Detail Rekening */
+.section-title {
+    font-weight: bold;
+    color: #555;
+    margin: 15px 0 5px;
+    font-size: 0.95em;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed #e0e0e0;
+}
+
+.account-number-box {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #f8f8f8;
+    padding: 15px;
+    border-radius: 8px;
     margin-top: 10px;
+    font-size: 1.2em;
+    font-weight: 700;
 }
 
-.btn-copy {
-    background-color: var(--grey-light);
-    color: var(--grey-dark);
+#copy-btn {
+    background-color: #28a745; /* Hijau */
+    color: white;
     border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
+    padding: 8px 15px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.btn-copy:hover {
-    background-color: #cacaca;
-}
-
-/* LOADING & ERROR STATES */
-.hidden {
-    display: none !important;
-}
-
-.loading-state {
-    text-align: center;
-    padding: 20px;
-}
-
-/* Implementasi Animasi Parallax (Sederhana) */
-.parallax-logo {
-    /* Menggunakan logo sebagai background atau elemen terpisah untuk animasi */
-    background-image: url('https://validusgrp.com/wp-content/uploads/2022/04/validus-capital-logo-red.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 50px;
-    height: 50px;
-    margin: 0 auto 10px;
-    animation: simpleParallax 1.5s infinite alternate ease-in-out;
-}
-
-@keyframes simpleParallax {
-    from { transform: scale(1); opacity: 0.7; }
-    to { transform: scale(1.1); opacity: 1; }
-}
-
-.error-state {
-    color: var(--primary-red);
-    text-align: center;
     font-weight: bold;
-    padding: 10px;
+    transition: background-color 0.2s;
 }
 
+#copy-btn:hover {
+    background-color: #218838;
+}
 
-/* INPUT ISI ULANG SECTION */
+/* Loading & Error States */
+.state {
+    text-align: center;
+    padding: 30px 0;
+}
+
+.state.hidden {
+    display: none;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Form */
+.topup-form {
+    margin-top: 20px;
+}
+
 #topup-amount {
     width: 100%;
-    padding: 10px;
-    margin: 10px 0 20px 0;
+    padding: 12px;
+    margin-top: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
     box-sizing: border-box;
-    border: 1px solid var(--grey-light);
-    border-radius: 4px;
     font-size: 1.1em;
-    text-align: right; /* Agar format mata uang terlihat rapi */
+    text-align: right;
 }
 
-.btn-konfirmasi {
+#confirm-payment-btn {
     width: 100%;
-    background-color: var(--primary-red);
-    color: var(--white);
-    padding: 12px 0;
+    padding: 15px;
+    background-color: #007bff;
+    color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 1.1em;
-    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.2s;
 }
 
-.btn-konfirmasi:hover:not(:disabled) {
-    background-color: #b50f20;
+#confirm-payment-btn:hover:not(:disabled) {
+    background-color: #0056b3;
 }
 
-.btn-konfirmasi:disabled {
-    background-color: var(--grey-light);
+#confirm-payment-btn:disabled {
+    background-color: #cccccc;
     cursor: not-allowed;
 }
 
-
 /* FOOTER */
 footer {
-    background-color: var(--grey-dark);
-    color: var(--white);
-    padding: 30px 5%;
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
     font-size: 0.9em;
 }
 
 .footer-content {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    gap: 30px;
-}
-
-.copyright-text {
-    font-size: 0.75em; /* Font sangat kecil untuk teks hak cipta/hukum */
-    margin-top: 15px;
-    opacity: 0.8; /* Sedikit redup agar tidak mendominasi */
+    padding-top: 10px;
 }
 
 .optimized-text {
-    font-size: 0.9em; /* Font sedikit lebih kecil dari default */
+    font-size: 0.85em; /* Teks komersial */
+    margin-bottom: 15px;
+    color: #ccc;
 }
 
-.contact-info, .legal-info {
-    flex: 1;
+.copyright-text {
+    font-size: 0.75em; /* Teks legal/hak cipta kecil */
+    margin-top: 10px;
+    opacity: 0.7;
+    border-top: 1px solid #444;
+    padding-top: 10px;
 }
 
-footer a {
-    color: var(--primary-red);
-    text-decoration: none;
-}
-footer a:hover {
-    text-decoration: underline;
-}
-
-/* Responsiveness dasar untuk mobile */
-@media (max-width: 600px) {
-    .footer-content {
+/* Responsif */
+@media (max-width: 480px) {
+    .payment-card {
+        padding: 20px;
+    }
+    .account-number-box {
         flex-direction: column;
+        align-items: flex-start;
+    }
+    #copy-btn {
+        width: 100%;
+        margin-top: 10px;
     }
 }
