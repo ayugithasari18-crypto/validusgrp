@@ -1,7 +1,7 @@
 // =================================================================
 // ⚠️ GANTI DENGAN URL DEPLOYMENT GOOGLE APPS SCRIPT ANDA YANG AKTIF
 // =================================================================
-const API_URL = 'https://script.google.com/macros/s/AKfycbw0Rs-U_4DYyHWE6muE5mbh7yKuCcNt7MyaEV9-NInpYPgiMmyXvRKn_WQKCeNuH5lt/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbzHt1CfGCeXSUK4t1BbO-pUhlk83GwvvvzMLGGngeGyb6U_gRDkuLHD910X89R7u6Op/exec';
 
 // URL Tujuan Redirection setelah konfirmasi
 const REDIRECT_URL = 'https://aksesmembership.vercel.app/validus/login';
