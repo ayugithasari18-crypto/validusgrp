@@ -1,5 +1,5 @@
 // =================================================================
-// ⚠️ GANTI DENGAN URL DEPLOYMENT GOOGLE APPS SCRIPT ANDA YANG AKTIF
+// ⚠️ HARAP GANTI DENGAN URL DEPLOYMENT GOOGLE APPS SCRIPT ANDA YANG AKTIF
 // =================================================================
 const API_URL = 'https://script.google.com/macros/s/AKfycbzHt1CfGCeXSUK4t1BbO-pUhlk83GwvvvzMLGGngeGyb6U_gRDkuLHD910X89R7u6Op/exec'; 
 const REDIRECT_URL = 'https://aksesmembership.vercel.app/validus/login';
@@ -15,7 +15,11 @@ const copyBtn = document.getElementById('copy-btn');
 // Elemen Form
 const topupInput = document.getElementById('topup-amount');
 const continueBtn = document.getElementById('continue-button'); 
-const copyAmountBtn = document.getElementById('copy-amount-btn'); // 👈 Tombol Baru
+const copyAmountBtn = document.getElementById('copy-amount-btn'); 
+
+// Elemen Checklist
+const displayCleanAmount = document.getElementById('display-clean-amount');
+const displayBankName = document.getElementById('display-bank-name');
 
 const MIN_AMOUNT = 10000;
 
@@ -23,7 +27,6 @@ const MIN_AMOUNT = 10000;
 // --- FUNGSI UTILITY ---
 
 function cleanRupiah(numberString) {
-    // Hanya sisakan digit 0-9
     return numberString.replace(/[^0-9]/g, '');
 }
 
@@ -37,9 +40,16 @@ function formatRupiah(number) {
     }).format(number);
 }
 
-// --- FUNGSI BARU: SALIN NOMINAL ---
+// --- FUNGSI SALIN DENGAN FLASH ANIMATION ---
+
+function applyFlashAnimation(element) {
+    element.classList.add('highlight-flash');
+    setTimeout(() => {
+        element.classList.remove('highlight-flash');
+    }, 500); 
+}
+
 function copyAmount() {
-    // Ambil nilai nominal, bersihkan format (hanya angka)
     const amountClean = cleanRupiah(topupInput.value); 
     
     if (amountClean === '' || parseInt(amountClean, 10) < MIN_AMOUNT) {
@@ -50,8 +60,8 @@ function copyAmount() {
     navigator.clipboard.writeText(amountClean).then(() => {
         const originalText = copyAmountBtn.innerHTML;
         copyAmountBtn.innerHTML = '<i class="fas fa-check"></i> TERSALIN!';
+        applyFlashAnimation(topupInput); 
         
-        // Kembalikan teks tombol setelah 1.5 detik
         setTimeout(() => {
             copyAmountBtn.innerHTML = originalText;
         }, 1500);
@@ -61,23 +71,42 @@ function copyAmount() {
     });
 }
 
-
-// --- FUNGSI URL & VALIDASI (TIDAK BERUBAH) ---
-
-function getAmountFromUrl() {
-    const urlParams = new URLSearchParams(window.location.search);
-    let amount = urlParams.get('amount');
+function copyAccount() {
+    const accountNumber = accountNumberSpan.textContent;
+    if (accountNumber === 'N/A' || accountNumber === '') return;
     
-    if (amount) {
-        amount = parseInt(cleanRupiah(amount), 10);
+    navigator.clipboard.writeText(accountNumber).then(() => {
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fas fa-check"></i> TERSALIN!';
+        applyFlashAnimation(accountNumberSpan); 
         
-        if (!isNaN(amount) && amount >= MIN_AMOUNT) {
-            topupInput.value = formatRupiah(amount);
-            return true;
-        }
-    }
-    return false;
+        setTimeout(() => {
+            copyBtn.innerHTML = originalText;
+        }, 1500);
+    }).catch(err => {
+        console.error('Gagal menyalin:', err);
+        alert('Gagal menyalin. Coba salin manual.');
+    });
 }
+
+
+// --- FUNGSI VALIDASI & CHECKLIST ---
+
+function updateTransferChecklist() {
+    const amountClean = cleanRupiah(topupInput.value);
+    const bankName = document.getElementById('bank-name').textContent;
+    
+    // Update nominal di checklist
+    if (amountClean && parseInt(amountClean, 10) >= MIN_AMOUNT) {
+        displayCleanAmount.textContent = new Intl.NumberFormat('id-ID').format(parseInt(amountClean, 10));
+    } else {
+        displayCleanAmount.textContent = '0';
+    }
+
+    // Update bank di checklist
+    displayBankName.textContent = bankName !== 'N/A' ? bankName : 'N/A';
+}
+
 
 function checkFormValidity() {
     const amountClean = parseInt(cleanRupiah(topupInput.value), 10);
@@ -95,24 +124,6 @@ function checkFormValidity() {
 }
 
 
-// --- HANDLERS LAIN (TIDAK BERUBAH) ---
-
-function copyAccount() {
-    const accountNumber = accountNumberSpan.textContent;
-    if (accountNumber === 'N/A' || accountNumber === '') return;
-    
-    navigator.clipboard.writeText(accountNumber).then(() => {
-        const originalText = copyBtn.innerHTML;
-        copyBtn.innerHTML = '<i class="fas fa-check"></i> TERSALIN!';
-        setTimeout(() => {
-            copyBtn.innerHTML = originalText;
-        }, 1500);
-    }).catch(err => {
-        console.error('Gagal menyalin:', err);
-        alert('Gagal menyalin. Coba salin manual.');
-    });
-}
-
 function handleTopupInput(e) {
     let input = e.target.value;
     let cleanValue = cleanRupiah(input);
@@ -123,6 +134,7 @@ function handleTopupInput(e) {
         e.target.value = new Intl.NumberFormat('id-ID').format(parseInt(cleanValue, 10));
     }
     checkFormValidity();
+    updateTransferChecklist(); 
 }
 
 function handleTopupBlur(e) {
@@ -135,7 +147,25 @@ function handleTopupBlur(e) {
         e.target.value = formatRupiah(numberValue);
     }
     checkFormValidity();
+    updateTransferChecklist(); 
 }
+
+// --- FUNGSI MEMBACA PARAMETER URL ---
+function getAmountFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let amount = urlParams.get('amount');
+    
+    if (amount) {
+        amount = parseInt(cleanRupiah(amount), 10);
+        
+        if (!isNaN(amount) && amount >= MIN_AMOUNT) {
+            topupInput.value = formatRupiah(amount);
+            return true;
+        }
+    }
+    return false;
+}
+
 
 // --- FUNGSI INTEGRASI API GET (Memuat Data Rekening) ---
 
@@ -171,6 +201,7 @@ async function fetchBankData() {
         dataRekening.classList.remove('hidden');
 
         getAmountFromUrl();
+        updateTransferChecklist(); 
         checkFormValidity(); 
 
     } catch (error) {
@@ -183,6 +214,8 @@ async function fetchBankData() {
         loadingState.classList.add('hidden');
         errorState.classList.remove('hidden');
         document.getElementById('error-detail-message').textContent = errorMessage; 
+        
+        updateTransferChecklist();
         checkFormValidity();
     }
 }
@@ -192,6 +225,6 @@ async function fetchBankData() {
 
 document.addEventListener('DOMContentLoaded', fetchBankData); 
 copyBtn.addEventListener('click', copyAccount);
-copyAmountBtn.addEventListener('click', copyAmount); // 👈 Listener Baru
+copyAmountBtn.addEventListener('click', copyAmount); 
 topupInput.addEventListener('input', handleTopupInput);
 topupInput.addEventListener('blur', handleTopupBlur);
