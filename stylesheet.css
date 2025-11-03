@@ -26,8 +26,9 @@ header {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+/* HEADER (Revisi Ukuran Logo) */
 .logo {
-    height: 30px; /* Ukuran logo yang disesuaikan */
+    height: 40px; /* Ukuran logo diperbesar (sebelumnya 30px) */
 }
 
 .btn-masuk {
@@ -166,6 +167,16 @@ footer {
     display: flex;
     justify-content: space-between;
     gap: 30px;
+}
+
+.copyright-text {
+    font-size: 0.75em; /* Font sangat kecil untuk teks hak cipta/hukum */
+    margin-top: 15px;
+    opacity: 0.8; /* Sedikit redup agar tidak mendominasi */
+}
+
+.optimized-text {
+    font-size: 0.9em; /* Font sedikit lebih kecil dari default */
 }
 
 .contact-info, .legal-info {
