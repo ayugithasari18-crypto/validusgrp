@@ -39,10 +39,6 @@ header {
     transition: opacity 0.2s;
 }
 
-.header-logo-link:hover .header-logo {
-    opacity: 0.8;
-}
-
 .login-button {
     background-color: #ce1126; 
     color: white;
@@ -82,8 +78,7 @@ main {
     font-weight: 500;
 }
 
-/* --- PROGRESS BAR TERBAIK --- */
-
+/* PROGRESS BAR */
 .elegant-step-progress {
     display: flex;
     justify-content: space-between;
@@ -133,13 +128,13 @@ main {
     margin: 0 10px;
 }
 
-.step-item.active + .step-separator {
+.step-item.active + .step-separator,
+.step-item.active.step-separator-active + .step-separator {
     background-color: #ce1126; 
 }
 
 
-/* --- LOADING & ERROR STATES TERBAIK --- */
-
+/* LOADING & ERROR STATES */
 #payment-details {
     min-height: 200px; 
 }
@@ -149,7 +144,6 @@ main {
     padding: 30px 0;
 }
 
-/* FIX UTAMA: Pastikan .hidden benar-benar menyembunyikan elemen */
 .hidden {
     display: none !important; 
 }
@@ -240,48 +234,80 @@ main {
     background-color: #218838;
 }
 
-/* Form */
+/* Form Nominal */
 .topup-form {
     margin-top: 30px;
+}
+
+.topup-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
 }
 
 #topup-amount {
     width: 100%;
     padding: 12px;
-    margin-top: 8px;
-    margin-bottom: 20px;
+    margin-top: 5px;
+    margin-bottom: 25px; 
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    font-size: 1.1em;
+    font-size: 1.2em; 
     text-align: right;
-    font-weight: 500;
+    font-weight: 700;
+    color: #333;
 }
 
-#confirm-payment-btn {
+.note-transfer-auto {
+    text-align: center;
+    font-size: 0.85em;
+    color: #555;
+    margin-top: 15px;
+}
+.note-transfer-auto i {
+    color: #ce1126;
+    margin-right: 5px;
+}
+
+
+/* TOMBOL LANJUTKAN (Continue Button) - Gaya Presisi Flexbox */
+.continue-button {
+    /* Menggunakan Flexbox untuk presisi */
+    display: flex;
+    justify-content: center; 
+    align-items: center;    
     width: 100%;
     padding: 15px;
-    background-color: #007bff;
+    
+    background-color: #ce1126; /* Merah Validus */
     color: white;
     border: none;
     border-radius: 4px;
-    font-size: 1em;
-    cursor: pointer;
+    font-size: 1.1em; 
     font-weight: 700;
+    text-decoration: none;
     transition: background-color 0.2s;
 }
 
-#confirm-payment-btn:hover:not(:disabled) {
-    background-color: #0056b3;
+.continue-button:hover:not(.disabled) {
+    background-color: #a30e20;
 }
 
-#confirm-payment-btn:disabled {
-    background-color: #cccccc;
+.continue-button.disabled {
+    background-color: #cccccc; /* Warna abu-abu saat disabled */
+    pointer-events: none; /* Menonaktifkan klik */
     cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.continue-button i {
+    margin-right: 10px;
+    font-size: 1.2em; 
 }
 
 
-/* --- FOOTER KODE --- */
+/* FOOTER KODE */
 footer {
     background-color: #1a1a1a; 
     color: #f0f0f0;
@@ -399,62 +425,8 @@ footer h4 {
     margin: 0 auto;
     text-align: center;
 }
-/* --- IDE BARU: GAYA KOTAK INSTRUKSI (Tambahkan ini di stylesheet.css) --- */
-.instruction-box {
-    margin-top: 30px;
-    padding: 20px;
-    background-color: #fff3cd; /* Warna kuning muda untuk peringatan */
-    border: 1px solid #ffe099;
-    border-radius: 6px;
-}
 
-.instruction-header {
-    font-weight: 700;
-    color: #856404; /* Warna teks gelap */
-    margin-bottom: 10px;
-    font-size: 1em;
-}
-
-.instruction-header i {
-    margin-right: 8px;
-}
-
-.instruction-list {
-    list-style-type: disc;
-    padding-left: 20px;
-    margin: 10px 0 20px 0;
-    font-size: 0.95em;
-    color: #333;
-}
-
-.instruction-list li {
-    margin-bottom: 5px;
-}
-
-.continue-button {
-    display: block;
-    width: 100%;
-    padding: 15px;
-    text-align: center;
-    background-color: #ce1126; /* Merah Validus */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 1em;
-    font-weight: 700;
-    text-decoration: none;
-    transition: background-color 0.2s;
-}
-
-.continue-button:hover {
-    background-color: #a30e20;
-}
-
-.continue-button i {
-    margin-right: 8px;
-}
-
-/* --- RESPONSIF --- */
+/* RESPONSIF */
 @media (max-width: 991px) {
     .footer-grid {
         grid-template-columns: repeat(2, 1fr); 
