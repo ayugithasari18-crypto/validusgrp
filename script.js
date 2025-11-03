@@ -53,95 +53,58 @@ function copyAccount() {
     });
 }
 
+// --- KODE BARU UNTUK INPUT NOMINAL ---
+
+function cleanRupiah(numberString) {
+    // Menghilangkan semua karakter selain digit
+    return numberString.replace(/[^0-9]/g, '');
+}
+
+function formatRupiah(number) {
+    if (isNaN(number) || number <= 0) return ''; 
+    // Menggunakan Intl.NumberFormat untuk standar IDR
+    return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0, // Hilangkan .00 di belakang
+        maximumFractionDigits: 0
+    }).format(number);
+}
+
+
 function handleTopupInput(e) {
+    // Fungsi ini HANYA membersihkan input, tidak memformat
     let input = e.target.value;
-    // Hapus semua non-digit
-    let cleanValue = input.replace(/[^0-9]/g, '');
+    let cleanValue = cleanRupiah(input);
+    
+    // Ini penting: Hanya tampilkan angka bersih agar kursor tidak loncat
+    if (cleanValue === '') {
+        e.target.value = '';
+    } else {
+        // Tampilkan angka mentah yang diformat dengan pemisah ribuan (opsional, tapi lebih baik)
+        e.target.value = new Intl.NumberFormat('id-ID').format(parseInt(cleanValue, 10));
+    }
+}
+
+function handleTopupBlur(e) {
+    // Fungsi ini memformat penuh saat input selesai (blur)
+    let cleanValue = cleanRupiah(e.target.value);
     let numberValue = parseInt(cleanValue, 10);
     
     if (isNaN(numberValue) || numberValue === 0) {
         e.target.value = ''; 
         return;
     }
-
-    // Tampilkan nilai yang diformat
+    
+    // Tampilkan format Rupiah lengkap (Rp. 1.000.000)
     e.target.value = formatRupiah(numberValue);
 }
 
-function handlePaymentConfirmation() {
-    if (confirmBtn.disabled) return;
+// --- EVENT LISTENERS BARU DI AKHIR script.js ---
 
-    confirmBtn.disabled = true;
-    confirmBtn.textContent = 'Mengalihkan...';
-    
-    // Redirect ke URL login yang diminta
-    window.location.href = REDIRECT_URL;
-}
-
-
-// ==========================================================
-// KODE FETCHBANKDATA BARU DENGAN TIMEOUT
-// ==========================================================
-async function fetchBankData() {
-    loadingState.classList.add('active'); 
-    dataRekening.classList.add('hidden');
-    errorState.classList.add('hidden');
-    toggleConfirmButton(false);
-
-    // Buat sinyal untuk timeout (misalnya, 10 detik)
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // Batas waktu 10 detik
-
-    try {
-        const response = await fetch(API_URL, { signal: controller.signal });
-        clearTimeout(timeoutId); // Hapus timeout jika berhasil fetch
-
-        if (!response.ok) {
-             throw new Error(`[Jaringan Error] Status: ${response.status}.`);
-        }
-        
-        const apiResponse = await response.json(); 
-
-        // Cek Status Sukses
-        if (apiResponse.status !== 'sukses' || !apiResponse.data) {
-            throw new Error(`[API Error Logika] Pesan: ${apiResponse.message || 'Data API tidak valid.'}`);
-        }
-        
-        const data = apiResponse.data; 
-        
-        // MENCARI KEY: 'name', 'number', 'bank'
-        document.getElementById('bank-name').textContent = data.bank;
-        document.getElementById('account-holder').textContent = data.name;
-        accountNumberSpan.textContent = data.number;
-        
-        loadingState.classList.remove('active');
-        dataRekening.classList.remove('hidden');
-        toggleConfirmButton(true);
-
-    } catch (error) {
-        clearTimeout(timeoutId); // Pastikan timeout dibersihkan jika error terjadi
-        
-        let errorMessage = "Koneksi terputus. Muat ulang halaman.";
-        if (error.name === 'AbortError') {
-             errorMessage = "Gagal memuat data (Timeout 10 detik).";
-        } else {
-             errorMessage = error.message;
-        }
-
-        console.error("FATAL ERROR FETCH DATA:", errorMessage);
-        
-        loadingState.classList.remove('active');
-        errorState.classList.remove('hidden');
-        
-        document.getElementById('error-state').innerHTML = `<p>Gagal memuat data rekening</p><small style="color:#ce1126; font-size:0.8em;">${errorMessage}</small>`;
-        confirmBtn.textContent = 'Kesalahan Data';
-    }
-}
-
-
-// --- EVENT LISTENERS ---
-
+// Ganti listeners lama dengan yang baru ini:
 document.addEventListener('DOMContentLoaded', fetchBankData); 
 copyBtn.addEventListener('click', copyAccount);
 topupInput.addEventListener('input', handleTopupInput);
+topupInput.addEventListener('blur', handleTopupBlur); // <-- TAMBAH EVENT BLUR INI!
 confirmBtn.addEventListener('click', handlePaymentConfirmation);
