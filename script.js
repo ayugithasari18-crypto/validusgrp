@@ -1,5 +1,5 @@
-// URL API Backend Google Script (Ganti dengan URL Deploy Anda yang AKTIF)
-const API_URL = 'https://script.google.com/macros/s/AKfycbyo4cv-kHFZYlKpDfauCDYAfqZB0dX-7d0r6i5d6oz8qRVwNyCk2INWYE9FbOyzezvr/exec';
+// URL API Backend Google Script (Pastikan ini URL Deploy Anda yang AKTIF)
+const API_URL = 'https://script.google.com/macros/s/AKfycbyo4cv-kHFZYlKpDfauCDYAfuCDYAfqZB0dX-7d0r6i5d6oz8qRVwNyCk2INWYE9FbOyzezvr/exec';
 
 // Elemen DOM (Tetap sama)
 const loadingState = document.getElementById('loading-state');
@@ -11,7 +11,7 @@ const topupInput = document.getElementById('topup-amount');
 const confirmBtn = document.getElementById('confirm-payment-btn');
 
 
-// --- FUNGSI UTILITY ---
+// --- FUNGSI UTILITY (Tidak Berubah) ---
 
 function toggleConfirmButton(enable) {
     confirmBtn.disabled = !enable;
@@ -69,7 +69,7 @@ function handlePaymentConfirmation() {
 }
 
 
-// --- FUNGSI INTEGRASI API UTAMA ---
+// --- FUNGSI INTEGRASI API UTAMA DENGAN KEY BARU ---
 
 async function fetchBankData() {
     loadingState.classList.add('active'); 
@@ -93,14 +93,13 @@ async function fetchBankData() {
         
         const data = apiResponse.data; // Objek data yang berisi informasi rekening
 
-        // 2. Tentukan Key Berdasarkan Header Sheet (asumsi tanpa spasi, karena di-clean di Apps Script)
-        // Jika header sheet Anda adalah: "Nama Bank", "Nama Pemegang Rekening", "Nomor Rekening"
-        const bankNameKey = 'NamaBank'; 
-        const accountHolderKey = 'NamaPemegangRekening';
-        const accountNumberKey = 'NomorRekening';
+        // 2. Tentukan Key Berdasarkan permintaan Anda: 'nama', 'number', 'bank'
+        const bankNameKey = 'bank'; 
+        const accountHolderKey = 'nama';
+        const accountNumberKey = 'number';
 
         if (!data[bankNameKey] || !data[accountNumberKey]) {
-            throw new Error('Data rekening tidak lengkap: Pastikan nama header di Google Sheet sesuai (misal: NamaBank).');
+            throw new Error('Data rekening tidak lengkap: Pastikan key "bank" atau "number" ada di Apps Script.');
         }
         
         // 3. Tampilkan data
@@ -121,7 +120,7 @@ async function fetchBankData() {
 }
 
 
-// --- EVENT LISTENERS ---
+// --- EVENT LISTENERS (Tetap sama) ---
 
 document.addEventListener('DOMContentLoaded', fetchBankData); 
 copyBtn.addEventListener('click', copyAccount);
