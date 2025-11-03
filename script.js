@@ -131,7 +131,8 @@ async function fetchBankData() {
         loadingState.classList.remove('active');
         errorState.classList.remove('hidden');
         
-        document.getElementById('error-state').innerHTML = `<p class="error-message">Gagal memuat data rekening</p><small style="color:#ce1126; font-size:0.8em;">${errorMessage}</small>`;
+        // Memperbarui pesan error di HTML
+        document.getElementById('error-detail-message').textContent = errorMessage; 
         confirmBtn.textContent = 'Kesalahan Data';
     }
 }
