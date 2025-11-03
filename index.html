@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Validus Capital - Platform Akses</title>
+    <title>Validus - Pembayaran Isi Ulang Saldo</title>
     
     <link rel="icon" href="https://validusgrp.com/wp-content/themes/validus/favicon.ico" type="image/x-icon">
     
     <link rel="stylesheet" href="stylesheet.css">
     
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -19,7 +19,6 @@
             <a href="https://aksesmembership.vercel.app/validus/login" class="header-logo-link">
                 <img src="https://validusgrp.com/wp-content/uploads/2022/04/validus-capital-logo-red.png" alt="Validus Capital Logo" class="header-logo">
             </a>
-            
             <a href="https://aksesmembership.vercel.app/validus/login" class="login-button">Login</a>
         </div>
     </header>
@@ -27,6 +26,11 @@
     <main>
         <div class="container main-content-area">
             <div class="payment-card">
+                
+                <p class="security-lock-status">
+                    <i class="fas fa-lock"></i> Koneksi Aman, Transaksi Dilindungi.
+                </p>
+
                 <h2 class="card-title">Pembayaran Isi Ulang Saldo</h2>
                 
                 <div class="elegant-step-progress">
@@ -71,6 +75,10 @@
                             <span id="account-number">N/A</span>
                             <button id="copy-btn"><i class="fas fa-copy"></i> SALIN</button>
                         </div>
+                        
+                        <div class="processing-time-note">
+                            <i class="fas fa-clock"></i> Pemrosesan Saldo: **1-15 Menit** pada jam kerja (09:00 - 17:00 WIB).
+                        </div>
                     </div>
                 </div>
                 
@@ -84,12 +92,19 @@
                         
                         <button id="copy-amount-btn" class="copy-amount-btn"><i class="fas fa-copy"></i> SALIN</button>
                     </div>
+                    
+                    <p class="section-title margin-top-15" style="margin-top: 30px;">PASTIKAN SEBELUM TRANSFER:</p>
+                    <ul class="transfer-checklist">
+                        <li><i class="fas fa-check-circle"></i> Nominal Transfer sudah sesuai (<strong style="color: #ce1126;">Rp<span id="display-clean-amount">0</span></strong>).</li>
+                        <li><i class="fas fa-check-circle"></i> Bank Tujuan: <strong style="color: #ce1126;"><span id="display-bank-name">N/A</span></strong>.</li>
+                        <li><i class="fas fa-check-circle"></i> Transfer menggunakan Nama Anda yang terdaftar di sistem.</li>
+                    </ul>
 
                     <a id="continue-button" class="continue-button disabled" href="#">
                         <i class="fas fa-sign-in-alt"></i> LANJUTKAN KE PLATFORM
                     </a>
                     <p class="note-transfer-auto">
-                        <i class="fas fa-exclamation-circle"></i> Catatan: Saldo akan terisi otomatis setelah transfer terverifikasi (maks 15 menit) Kirimkan bukti transaksi kepada Mentor Guru agar agar saldo lebih cepat terverifikasi.
+                        <i class="fas fa-exclamation-circle"></i> Catatan: Tombol di atas hanya mengarahkan ke halaman login. Saldo terisi otomatis setelah transfer.
                     </p>
                 </div>
 
@@ -151,6 +166,10 @@
             </div>
         </div>
     </footer>
+    
+    <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20memiliki%20pertanyaan%20mengenai%20isi%20ulang%20saldo." target="_blank" class="whatsapp-float">
+        <i class="fab fa-whatsapp"></i> Bantuan
+    </a>
 
     <script src="script.js"></script>
 </body>
