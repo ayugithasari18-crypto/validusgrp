@@ -21,7 +21,7 @@ const confirmBtn = document.getElementById('confirm-payment-btn');
 
 function toggleConfirmButton(enable) {
     confirmBtn.disabled = !enable;
-    confirmBtn.textContent = enable ? 'SUDHA DIBAYAR' : 'Menunggu Data Rekening...';
+    confirmBtn.textContent = enable ? 'SUDAH DIBAYAR' : 'Menunggu Data Rekening...';
 }
 
 function formatRupiah(number) {
