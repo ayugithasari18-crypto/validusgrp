@@ -19,7 +19,7 @@ const translations = {
         'rek_bank_label': 'Nama Bank:',
         'rek_holder_label': 'Nama Pemilik:',
         'rek_number_label': 'NOMOR REKENING TUJUAN:',
-        'copy_button': 'SALIN',
+        'copy_button': 'SALIN', // Tombol Salin Rekening
         'copy_button_amount': 'SALIN', // Tombol Salin Nominal
         'processing_note': 'Pemrosesan Saldo: **1-15 Menit** pada jam kerja (09:00 - 17:00 WIB).',
         'transfer_amount_label': 'Jumlah yang Akan Ditransfer:',
@@ -32,7 +32,6 @@ const translations = {
         'mentor_button': 'BERIKAN BUKTI KEPADA MENTOR',
         'continue_button': 'LANJUTKAN KE PLATFORM',
         'continue_note': 'Catatan: Tombol di atas hanya mengarahkan ke halaman login. Saldo terisi otomatis setelah verifikasi mentor.',
-        // Footer
         'contact_us': 'HUBUNGI KAMI',
         'view_map': 'Lihat Peta',
         'operating_hours_title': 'Jam Operasional',
@@ -64,7 +63,7 @@ const translations = {
         'rek_holder_label': 'Account Holder:',
         'rek_number_label': 'DESTINATION ACCOUNT NUMBER:',
         'copy_button': 'COPY',
-        'copy_button_amount': 'COPY', // Tombol Salin Nominal
+        'copy_button_amount': 'COPY', 
         'processing_note': 'Balance Processing: **1-15 Minutes** during business hours (09:00 - 17:00 WIB).',
         'transfer_amount_label': 'Amount to Transfer:',
         'placeholder_min': 'Minimum Rp10,000',
@@ -76,7 +75,6 @@ const translations = {
         'mentor_button': 'SEND PROOF TO MENTOR',
         'continue_button': 'PROCEED TO PLATFORM',
         'continue_note': 'Note: The button above only links to the login page. Balance is automatically credited after mentor verification.',
-        // Footer
         'contact_us': 'CONTACT US',
         'view_map': 'View Map',
         'operating_hours_title': 'Operating Hours',
@@ -166,7 +164,7 @@ function translatePage(lang) {
     body.setAttribute('data-lang', lang);
     localStorage.setItem('language', lang);
     
-    // Set placeholder nominal (harus di-handle terpisah dari loop)
+    // Set placeholder nominal 
     const placeholder = lang === 'en' ? 'Minimum Rp10,000' : 'Minimal Rp10.000';
     topupInput.setAttribute('placeholder', placeholder); 
 
@@ -201,6 +199,7 @@ function applyFlashAnimation(element) {
     }, 500); 
 }
 
+// FIX: Memperbaiki logika copy button agar teks kembali ke bahasa yang benar
 function copyAmount() {
     const amountClean = cleanRupiah(topupInput.value); 
     const lang = body.getAttribute('data-lang');
@@ -212,7 +211,10 @@ function copyAmount() {
     
     navigator.clipboard.writeText(amountClean).then(() => {
         const successText = lang === 'en' ? '<i class="fas fa-check"></i> COPIED!' : '<i class="fas fa-check"></i> TERSALIN!';
-        const originalText = document.querySelector('[data-key="copy_button_amount"]').textContent;
+        
+        // Simpan teks asli sebelum diganti
+        const originalKey = copyAmountBtn.getAttribute('data-key');
+        const originalText = translations[lang][originalKey];
 
         copyAmountBtn.innerHTML = successText;
         applyFlashAnimation(topupInput); 
@@ -234,7 +236,10 @@ function copyAccount() {
     
     navigator.clipboard.writeText(accountNumber).then(() => {
         const successText = lang === 'en' ? '<i class="fas fa-check"></i> COPIED!' : '<i class="fas fa-check"></i> TERSALIN!';
-        const originalText = document.querySelector('#copy-btn[data-key="copy_button"]').textContent;
+        
+        // Simpan teks asli sebelum diganti
+        const originalKey = copyBtn.getAttribute('data-key');
+        const originalText = translations[lang][originalKey];
         
         copyBtn.innerHTML = successText;
         applyFlashAnimation(accountNumberSpan); 
@@ -267,7 +272,6 @@ function updateMentorLink() {
                       ? new Intl.NumberFormat('id-ID').format(parseInt(amountClean, 10)) 
                       : 'BELUM DIISI';
 
-    // Base URL WhatsApp, pastikan NOMOR WA Anda benar
     const baseHref = "https://wa.me/6281234567890?text=Halo%20Mentor%2FGuru%2C%20saya%20sudah%20melakukan%20transfer%20isi%20ulang%20saldo%20sebesar%20Rp[NOMINAL].%20Berikut%20bukti%20transfer%20saya%20(mohon%20unggah%20di%20sini).";
     
     const newHref = baseHref.replace(/\[NOMINAL\]/, `${nominalText}`);
@@ -336,10 +340,10 @@ function getAmountFromUrl() {
 }
 
 
-// --- FUNGSI INTEGRASI API GET (Memperbaiki Logika State) ---
+// --- FUNGSI INTEGRASI API GET (Logika State yang Presisi) ---
 
 async function fetchBankData() {
-    // START: Hanya loading-state yang aktif, semua state lain disembunyikan
+    // 1. START: Hanya loading-state yang aktif, semua state lain disembunyikan
     loadingState.classList.remove('hidden'); 
     dataRekening.classList.add('hidden');    
     errorState.classList.add('hidden');      
@@ -366,7 +370,7 @@ async function fetchBankData() {
         document.getElementById('account-holder').textContent = data.name;
         accountNumberSpan.textContent = data.number;
         
-        // SUKSES: Sembunyikan Loading dan Error, Tampilkan Data
+        // 2. SUKSES: Sembunyikan Loading dan Error, Tampilkan Data
         loadingState.classList.add('hidden');
         errorState.classList.add('hidden'); 
         dataRekening.classList.remove('hidden');
@@ -385,7 +389,7 @@ async function fetchBankData() {
 
         console.error("FATAL ERROR FETCH DATA:", errorMessage);
         
-        // ERROR: Sembunyikan Loading dan Data, Tampilkan Error
+        // 3. ERROR: Sembunyikan Loading dan Data, Tampilkan Error
         loadingState.classList.add('hidden');
         dataRekening.classList.add('hidden'); 
         errorState.classList.remove('hidden');
