@@ -86,12 +86,13 @@ function handlePaymentConfirmation() {
 }
 
 
-// --- FUNGSI INTEGRASI API UTAMA DENGAN TIMEOUT FIX ---
+// --- FUNGSI INTEGRASI API UTAMA DENGAN PERBAIKAN BUG VISIBILITAS ---
 
 async function fetchBankData() {
-    loadingState.classList.add('active'); 
-    dataRekening.classList.add('hidden');
-    errorState.classList.add('hidden');
+    // 1. Tampilkan Loading State dan sembunyikan semua yang lain
+    loadingState.classList.remove('hidden'); // Tampilkan
+    dataRekening.classList.add('hidden');    // Sembunyikan
+    errorState.classList.add('hidden');      // Sembunyikan
     toggleConfirmButton(false);
 
     const controller = new AbortController();
@@ -117,7 +118,8 @@ async function fetchBankData() {
         document.getElementById('account-holder').textContent = data.name;
         accountNumberSpan.textContent = data.number;
         
-        loadingState.classList.remove('active');
+        // 2. Berhasil: Sembunyikan Loading dan tampilkan Data Rekening
+        loadingState.classList.add('hidden');
         dataRekening.classList.remove('hidden');
         toggleConfirmButton(true);
 
@@ -128,10 +130,10 @@ async function fetchBankData() {
 
         console.error("FATAL ERROR FETCH DATA:", errorMessage);
         
-        loadingState.classList.remove('active');
+        // 3. Error: Sembunyikan Loading dan tampilkan Error State
+        loadingState.classList.add('hidden');
         errorState.classList.remove('hidden');
         
-        // Memperbarui pesan error di HTML
         document.getElementById('error-detail-message').textContent = errorMessage; 
         confirmBtn.textContent = 'Kesalahan Data';
     }
