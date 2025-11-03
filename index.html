@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Validus Capital - Akses Mudah Platform </title>
+    <title>Validus - Pembayaran Isi Ulang</title>
     
     <link rel="icon" href="https://validusgrp.com/wp-content/themes/validus/favicon.ico" type="image/x-icon">
     
@@ -29,23 +29,33 @@
             <div class="payment-card">
                 <h2 class="card-title">Pembayaran Isi Ulang Saldo</h2>
                 
-                <div class="step-progress">
-                    <span class="step active">1. Transfer Dana</span>
-                    <span class="step">2. Konfirmasi Pembayaran</span>
+                <div class="elegant-step-progress">
+                    <div class="step-item active">
+                        <div class="step-icon"><i class="fas fa-hand-holding-dollar"></i></div>
+                        <span class="step-label">1. Transfer Dana</span>
+                    </div>
+                    <div class="step-separator"></div>
+                    <div class="step-item">
+                        <div class="step-icon"><i class="fas fa-check-circle"></i></div>
+                        <span class="step-label">2. Konfirmasi Pembayaran</span>
+                    </div>
                 </div>
 
                 <div id="payment-details">
+                    
                     <div id="loading-state" class="state active">
-                        <div class="spinner"></div>
-                        <p>Memuat data rekening, mohon tunggu...</p>
+                        <div class="modern-spinner"></div>
+                        <p class="loading-message">Memuat data rekening Validus, mohon tunggu...</p>
                     </div>
 
                     <div id="error-state" class="state hidden">
-                        <p class="error-message">Gagal memuat data rekening. Silakan coba muat ulang halaman.</p>
+                        <div class="error-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <p class="error-message">Gagal memuat data rekening.</p>
+                        <small id="error-detail-message" style="color:#ce1126; font-size:0.8em;">Silakan periksa koneksi internet Anda atau muat ulang halaman.</small>
                     </div>
 
                     <div id="data-rekening" class="data-content hidden">
-                        <p class="section-title">Rekening Tujuan Transfer:</p>
+                        <p class="section-title">REKENING TUJUAN TRANSFER:</p>
                         
                         <div class="detail-row">
                             <span>Nama Bank:</span>
@@ -56,7 +66,7 @@
                             <strong id="account-holder">N/A</strong>
                         </div>
 
-                        <p class="section-title margin-top-15">Nomor Rekening Tujuan:</p>
+                        <p class="section-title margin-top-15">NOMOR REKENING TUJUAN:</p>
                         <div class="account-number-box">
                             <span id="account-number">N/A</span>
                             <button id="copy-btn"><i class="fas fa-copy"></i> SALIN</button>
