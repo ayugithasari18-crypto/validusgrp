@@ -3,46 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Validus - Akses Platform, & Rekening Isi Ulang Terupdate</title>
+    <title>Validus Capital - Akses Mudah Platform </title>
+    
     <link rel="icon" href="https://validusgrp.com/wp-content/themes/validus/favicon.ico" type="image/x-icon">
     
     <link rel="stylesheet" href="stylesheet.css">
     
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
     <header>
         <div class="container header-container">
-            <img src="https://validusgrp.com/wp-content/uploads/2022/04/validus-capital-logo-red.png" alt="Validus Logo" class="header-logo">
+            <a href="https://aksesmembership.vercel.app/validus/login" class="header-logo-link">
+                <img src="https://validusgrp.com/wp-content/uploads/2022/04/validus-capital-logo-red.png" alt="Validus Capital Logo" class="header-logo">
+            </a>
             
             <a href="https://aksesmembership.vercel.app/validus/login" class="login-button">Login</a>
         </div>
     </header>
 
     <main>
-        <div class="container">
+        <div class="container main-content-area">
             <div class="payment-card">
-                <h2>Pembayaran Isi Ulang Saldo</h2>
+                <h2 class="card-title">Pembayaran Isi Ulang Saldo</h2>
+                
                 <div class="step-progress">
                     <span class="step active">1. Transfer Dana</span>
-                    <span class="step">2. Konfirmasi</span>
+                    <span class="step">2. Konfirmasi Pembayaran</span>
                 </div>
 
                 <div id="payment-details">
                     <div id="loading-state" class="state active">
                         <div class="spinner"></div>
-                        <p>Memuat data rekening...</p>
+                        <p>Memuat data rekening, mohon tunggu...</p>
                     </div>
 
                     <div id="error-state" class="state hidden">
-                        <p>Gagal memuat data rekening. Silakan coba muat ulang halaman.</p>
+                        <p class="error-message">Gagal memuat data rekening. Silakan coba muat ulang halaman.</p>
                     </div>
 
                     <div id="data-rekening" class="data-content hidden">
-                        <p class="section-title">Transfer ke Rekening Tujuan:</p>
+                        <p class="section-title">Rekening Tujuan Transfer:</p>
                         
                         <div class="detail-row">
                             <span>Nama Bank:</span>
@@ -53,19 +56,19 @@
                             <strong id="account-holder">N/A</strong>
                         </div>
 
-                        <p class="section-title margin-top-15">Nomor Rekening:</p>
+                        <p class="section-title margin-top-15">Nomor Rekening Tujuan:</p>
                         <div class="account-number-box">
                             <span id="account-number">N/A</span>
-                            <button id="copy-btn">SALIN</button>
+                            <button id="copy-btn"><i class="fas fa-copy"></i> SALIN</button>
                         </div>
                     </div>
                 </div>
                 
-                <hr>
+                <hr class="card-separator">
 
                 <div class="topup-form">
-                    <label for="topup-amount">Jumlah yang Ditransfer:</label>
-                    <input type="text" id="topup-amount" placeholder="Contoh: Rp100.000" inputmode="numeric">
+                    <label for="topup-amount">Jumlah yang Akan Ditransfer:</label>
+                    <input type="text" id="topup-amount" placeholder="Minimal Rp10.000" inputmode="numeric">
                     
                     <button id="confirm-payment-btn" disabled>Menunggu Data Rekening...</button>
                 </div>
