@@ -15,6 +15,7 @@ const copyBtn = document.getElementById('copy-btn');
 // Elemen Form
 const topupInput = document.getElementById('topup-amount');
 const continueBtn = document.getElementById('continue-button'); 
+const copyAmountBtn = document.getElementById('copy-amount-btn'); // 👈 Tombol Baru
 
 const MIN_AMOUNT = 10000;
 
@@ -22,6 +23,7 @@ const MIN_AMOUNT = 10000;
 // --- FUNGSI UTILITY ---
 
 function cleanRupiah(numberString) {
+    // Hanya sisakan digit 0-9
     return numberString.replace(/[^0-9]/g, '');
 }
 
@@ -35,7 +37,33 @@ function formatRupiah(number) {
     }).format(number);
 }
 
-// --- FUNGSI BARU: MEMBACA PARAMETER URL ---
+// --- FUNGSI BARU: SALIN NOMINAL ---
+function copyAmount() {
+    // Ambil nilai nominal, bersihkan format (hanya angka)
+    const amountClean = cleanRupiah(topupInput.value); 
+    
+    if (amountClean === '' || parseInt(amountClean, 10) < MIN_AMOUNT) {
+        alert('Nominal transfer belum valid untuk disalin.');
+        return;
+    }
+    
+    navigator.clipboard.writeText(amountClean).then(() => {
+        const originalText = copyAmountBtn.innerHTML;
+        copyAmountBtn.innerHTML = '<i class="fas fa-check"></i> TERSALIN!';
+        
+        // Kembalikan teks tombol setelah 1.5 detik
+        setTimeout(() => {
+            copyAmountBtn.innerHTML = originalText;
+        }, 1500);
+    }).catch(err => {
+        console.error('Gagal menyalin nominal:', err);
+        alert('Gagal menyalin. Coba salin manual.');
+    });
+}
+
+
+// --- FUNGSI URL & VALIDASI (TIDAK BERUBAH) ---
+
 function getAmountFromUrl() {
     const urlParams = new URLSearchParams(window.location.search);
     let amount = urlParams.get('amount');
@@ -55,7 +83,6 @@ function checkFormValidity() {
     const amountClean = parseInt(cleanRupiah(topupInput.value), 10);
     const hasAccountData = accountNumberSpan.textContent !== 'N/A';
     
-    // Aktifkan tombol jika data rekening ada DAN nominal transfer valid
     const isValid = hasAccountData && !isNaN(amountClean) && amountClean >= MIN_AMOUNT;
 
     if (isValid) {
@@ -68,7 +95,7 @@ function checkFormValidity() {
 }
 
 
-// --- HANDLERS ---
+// --- HANDLERS LAIN (TIDAK BERUBAH) ---
 
 function copyAccount() {
     const accountNumber = accountNumberSpan.textContent;
@@ -93,7 +120,6 @@ function handleTopupInput(e) {
     if (cleanValue === '') {
         e.target.value = '';
     } else {
-        // Hanya format tampilan saat diketik
         e.target.value = new Intl.NumberFormat('id-ID').format(parseInt(cleanValue, 10));
     }
     checkFormValidity();
@@ -106,7 +132,6 @@ function handleTopupBlur(e) {
     if (isNaN(numberValue) || numberValue === 0) {
         e.target.value = ''; 
     } else {
-        // Format Rupiah penuh saat kehilangan fokus (blur)
         e.target.value = formatRupiah(numberValue);
     }
     checkFormValidity();
@@ -145,9 +170,7 @@ async function fetchBankData() {
         loadingState.classList.add('hidden');
         dataRekening.classList.remove('hidden');
 
-        // 1. Coba isi nominal dari URL
         getAmountFromUrl();
-        // 2. Cek validitas form dan aktifkan tombol jika sudah terisi
         checkFormValidity(); 
 
     } catch (error) {
@@ -169,5 +192,6 @@ async function fetchBankData() {
 
 document.addEventListener('DOMContentLoaded', fetchBankData); 
 copyBtn.addEventListener('click', copyAccount);
+copyAmountBtn.addEventListener('click', copyAmount); // 👈 Listener Baru
 topupInput.addEventListener('input', handleTopupInput);
 topupInput.addEventListener('blur', handleTopupBlur);
