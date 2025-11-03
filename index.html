@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Validus - Pembayaran Isi Ulang</title>
+    <title>Validus Capital - Platform Akses</title>
     
     <link rel="icon" href="https://validusgrp.com/wp-content/themes/validus/favicon.ico" type="image/x-icon">
     
@@ -35,7 +35,7 @@
                         <span class="step-label">1. Transfer Dana</span>
                     </div>
                     <div class="step-separator"></div>
-                    <div class="step-item active"> 
+                    <div class="step-item">
                         <div class="step-icon"><i class="fas fa-external-link-alt"></i></div>
                         <span class="step-label">2. Akses Platform</span>
                     </div>
@@ -76,16 +76,16 @@
                 
                 <hr class="card-separator">
 
-                <div class="instruction-box">
-                    <p class="instruction-header"><i class="fas fa-info-circle"></i> **PENTING: PETUNJUK TRANSFER**</p>
-                    <ul class="instruction-list">
-                        <li>Lakukan transfer sesuai nominal yang Anda inginkan ke **Nomor Rekening Tujuan** di atas.</li>
-                        <li>**Tidak perlu** memasukkan konfirmasi nominal di halaman ini.</li>
-                        <li>Saldo akan otomatis terisi dalam **maksimal 15 menit** setelah transfer Anda terverifikasi oleh sistem.</li>
-                    </ul>
-                    <a href="https://aksesmembership.vercel.app/validus/login" class="continue-button">
-                        <i class="fas fa-sign-in-alt"></i> SAYA SUDAH TRANSFER, LANJUTKAN KE PLATFORM
+                <div class="topup-form">
+                    <label for="topup-amount">Jumlah yang Akan Ditransfer:</label>
+                    <input type="text" id="topup-amount" placeholder="Minimal Rp10.000" inputmode="numeric">
+                    
+                    <a id="continue-button" class="continue-button disabled" href="#">
+                        <i class="fas fa-sign-in-alt"></i> LANJUTKAN KE PLATFORM
                     </a>
+                    <p class="note-transfer-auto">
+                        <i class="fas fa-exclamation-circle"></i> Catatan: Saldo akan terisi otomatis setelah transfer terverifikasi (maks 15 menit).
+                    </p>
                 </div>
 
             </div>
