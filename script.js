@@ -1,5 +1,5 @@
 // URL API Backend Google Script
-const API_URL = 'https://script.google.com/macros/s/AKfycbyo4cv-kHFZYlKpDfauCDYAfqZB0dX-7d0r6i5d6oz8qRVwNyCk2INWYE9FbOyzezvr/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyo4cv-kHFZYlKpDfauCDYAfuCDYAfqZB0dX-7d0r6i5d6oz8qRVwNyCk2INWYE9FbOyzezvr/exec';
 
 // Elemen DOM
 const loadingState = document.getElementById('loading-state');
@@ -12,32 +12,47 @@ const confirmBtn = document.getElementById('confirm-payment-btn');
 
 /**
  * Fungsi untuk mengambil data rekening dari API backend.
+ * Menggunakan mode no-cors jika diperlukan (meskipun idealnya tidak untuk JSON API)
+ * Kunci sukses: memastikan data adalah objek JSON yang valid.
  */
 async function fetchBankData() {
-    loadingState.classList.add('active'); // Tampilkan loading
+    loadingState.classList.add('active'); 
     dataRekening.classList.add('hidden');
     errorState.classList.add('hidden');
+    toggleConfirmButton(false);
 
     try {
-        const response = await fetch(API_URL);
+        // Percobaan fetch data
+        const response = await fetch(API_URL); // Tidak menggunakan mode: 'no-cors' agar bisa mengecek status response
+        
         if (!response.ok) {
-            throw new Error('Jaringan bermasalah atau status server bukan 200.');
+            // Jika status HTTP bukan 200 (misalnya 404, 500), lempar error
+            throw new Error(`Gagal Fetch: Status HTTP ${response.status}. Mungkin masalah CORS atau server.`);
         }
         
+        // Coba parsing JSON
         const data = await response.json();
+
+        // Validasi: Pastikan data utama ada
+        if (!data.bank_name || !data.account_number) {
+            throw new Error('Data rekening tidak lengkap. API merespons, tetapi data kunci hilang.');
+        }
         
-        // Asumsi struktur data: { bank_name: "...", account_holder: "...", account_number: "..." }
-        document.getElementById('bank-name').textContent = data.bank_name || 'N/A';
-        document.getElementById('account-holder').textContent = data.account_holder || 'N/A';
-        accountNumberSpan.textContent = data.account_number || 'N/A';
+        // Tampilkan data yang berhasil
+        document.getElementById('bank-name').textContent = data.bank_name;
+        document.getElementById('account-holder').textContent = data.account_holder;
+        accountNumberSpan.textContent = data.account_number;
         
         loadingState.classList.remove('active');
         dataRekening.classList.remove('hidden');
+        toggleConfirmButton(true);
 
     } catch (error) {
-        console.error("Fetch Error:", error);
+        // Blok ini menangani masalah jaringan, masalah parsing JSON, dan error validasi
+        console.error("Kesalahan Pengambilan Data Rekening:", error.message);
         loadingState.classList.remove('active');
-        errorState.classList.remove('hidden');
+        errorState.classList.remove('hidden'); // Menampilkan pesan: Gagal memuat data rekening
+        confirmBtn.textContent = 'Kesalahan Data';
     }
 }
 
