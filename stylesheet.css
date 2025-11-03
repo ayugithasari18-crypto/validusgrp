@@ -1,16 +1,48 @@
+/* ROOT VARIABLES & DARK MODE */
+:root {
+    /* Light Theme */
+    --color-primary: #ce1126; /* Merah Validus */
+    --color-secondary: #007bff; /* Biru */
+    --color-success: #28a745; /* Hijau */
+    --color-bg: #f8f8f8;
+    --color-bg-card: #ffffff;
+    --color-bg-input: #f2f2f2;
+    --color-text: #333;
+    --color-text-secondary: #555;
+    --color-border: #e0e0e0;
+    --color-footer-bg: #1a1a1a;
+    --color-footer-text: #f0f0f0;
+}
+
+/* DARK MODE OVERRIDES */
+[data-theme="dark"] {
+    --color-bg: #121212;
+    --color-bg-card: #1e1e1e;
+    --color-bg-input: #333333;
+    --color-text: #e0e0e0;
+    --color-text-secondary: #a0a0a0;
+    --color-border: #333333;
+    --color-footer-bg: #0d0d0d;
+    --color-footer-text: #aaaaaa;
+}
+
 /* RESET DASAR & FONT */
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f8f8; 
-    color: #333;
+    background-color: var(--color-bg); 
+    color: var(--color-text);
     line-height: 1.6;
     overflow-x: hidden; 
     box-sizing: border-box; 
+    transition: background-color 0.3s, color 0.3s; /* Transisi Tema */
 }
 *, *::before, *::after {
     box-sizing: inherit;
+}
+a {
+    color: var(--color-primary);
 }
 
 .container {
@@ -19,12 +51,12 @@ body {
     margin: 0 auto;
 }
 
-/* HEADER */
+/* HEADER & CONTROLS */
 header {
-    background-color: #ffffff; 
+    background-color: var(--color-bg-card); 
     padding: 15px 0;
-    border-bottom: 2px solid #ce1126; 
-    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+    border-bottom: 2px solid var(--color-primary); 
+    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
 }
 
 .header-container {
@@ -33,15 +65,38 @@ header {
     align-items: center;
 }
 
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.control-button, .control-select {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text);
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    font-size: 1em;
+}
+
+.control-button:hover, .control-select:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .control-button:hover, [data-theme="dark"] .control-select:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
 .header-logo {
     height: 35px;
-    transition: opacity 0.2s;
 }
 
 .login-button {
-    background-color: #ce1126; 
+    background-color: var(--color-primary); 
     color: white;
-    border: none;
     padding: 10px 20px;
     border-radius: 5px;
     text-decoration: none;
@@ -56,328 +111,115 @@ main {
 }
 
 .payment-card {
-    background: #ffffff;
+    background: var(--color-bg-card);
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
     max-width: 450px;
     margin: 0 auto;
-    position: relative;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 /* INDIKATOR KEAMANAN */
 .security-lock-status {
-    text-align: right;
-    font-size: 0.75em;
-    color: #5cb85c; 
-    margin-bottom: 5px; 
-    padding-top: 0; 
-    font-weight: 500;
+    color: var(--color-success); 
 }
 
 .card-title {
-    color: #ce1126;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 15px;
-    margin-top: 0;
-    margin-bottom: 25px;
-    font-weight: 700; 
+    color: var(--color-primary);
+    border-bottom: 1px solid var(--color-border);
+    transition: border-color 0.3s;
 }
 
 /* PROGRESS BAR */
-.elegant-step-progress {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
-.step-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    color: #999;
-    flex: 0 0 auto; 
-    font-size: 0.9em;
-    font-weight: 500;
-}
 .step-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #e0e0e0;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 8px;
-    transition: all 0.3s;
-    font-size: 1.1em;
-}
-.step-item.active .step-icon {
-    background-color: #ce1126; 
-    box-shadow: 0 0 0 5px rgba(206, 17, 38, 0.2); 
-}
-.step-item.active .step-label {
-    color: #333;
-    font-weight: 700;
+    background-color: var(--color-border);
+    color: var(--color-bg-card);
 }
 .step-separator {
-    flex-grow: 1; 
-    height: 2px;
-    background-color: #e0e0e0;
-    margin: 0 10px;
+    background-color: var(--color-border);
 }
 
-/* LOADING & ERROR STATES (Logika Tampilan) */
-.state {
-    text-align: center;
-    padding: 30px 0;
-    transition: opacity 0.3s;
-}
-.hidden {
-    display: none !important; 
-}
+/* LOADING & ERROR STATES */
 .modern-spinner {
-    border: 4px solid rgba(0, 0, 0, 0.1);
-    border-left-color: #ce1126; 
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 15px;
+    border-left-color: var(--color-primary); 
 }
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-.error-icon {
-    font-size: 2.5em;
-    color: #ce1126; 
-    margin-bottom: 10px;
-}
-
 
 /* Detail Rekening */
 .section-title {
-    font-weight: 500;
-    color: #555;
-    margin: 20px 0 5px;
-    font-size: 0.9em;
-    text-transform: uppercase;
+    color: var(--color-text-secondary);
 }
 .detail-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #f0f0f0;
-    font-size: 0.95em;
+    border-bottom: 1px solid var(--color-border);
 }
 .detail-row strong {
-    color: #000; 
-    font-weight: 700;
+    color: var(--color-text); 
 }
 .account-number-box {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f2f2f2; 
-    padding: 15px;
-    border-radius: 4px;
-    margin-top: 10px;
-    font-size: 1.1em;
-    font-weight: 700;
+    background-color: var(--color-bg-input); 
 }
 #copy-btn {
-    flex-shrink: 0; 
-    background-color: #28a745; 
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.2s;
-    font-size: 0.9em;
-    margin-left: 10px; 
+    background-color: var(--color-success); 
 }
-#copy-btn:hover {
-    background-color: #218838; 
-}
-
-/* WAKTU PEMROSESAN */
 .processing-time-note {
-    background-color: #f7f7f7;
-    border-left: 4px solid #007bff; 
-    padding: 10px;
-    margin-top: 20px;
-    font-size: 0.85em;
-    color: #444;
+    background-color: var(--color-bg-input);
+    border-left: 4px solid var(--color-secondary); 
+    color: var(--color-text-secondary);
 }
 
 /* Form Nominal */
-.nominal-input-group {
-    display: flex;
-    gap: 10px; 
-    margin-bottom: 25px;
-}
 #topup-amount {
-    flex-grow: 1; 
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box; 
-    font-size: 1.2em;
-    text-align: right;
-    font-weight: 700;
-    color: #333;
-    min-width: 100px; 
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
 }
 .copy-amount-btn {
-    flex-shrink: 0; 
-    padding: 12px 15px;
-    background-color: #007bff; 
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 0.9em;
-    transition: background-color 0.2s;
+    background-color: var(--color-secondary); 
 }
 
 /* TRANSFER CHECKLIST & TOMBOL LANJUTKAN */
-.transfer-checklist {
-    list-style: none;
-    padding: 0;
-    margin: 15px 0 30px 0; 
-}
 .transfer-checklist li i {
-    color: #28a745; 
-    margin-right: 10px;
+    color: var(--color-success); 
 }
+
+/* GAYA TOMBOL KONFIRMASI MENTOR */
+.mentor-confirmation-section {
+    background-color: rgba(0, 123, 255, 0.1); /* Latar biru muda */
+    border: 1px solid var(--color-secondary);
+}
+.confirm-button {
+    background-color: #25d366; 
+}
+
+/* TOMBOL LANJUTKAN */
 .continue-button {
-    display: flex;
-    justify-content: center; 
-    align-items: center;    
-    width: 100%;
-    padding: 15px;
-    background-color: #ce1126; 
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 1.1em; 
-    font-weight: 700;
-    text-decoration: none;
-    transition: background-color 0.2s;
+    background-color: var(--color-primary); 
 }
 .continue-button.disabled {
-    background-color: #cccccc; 
-    pointer-events: none; 
-    cursor: not-allowed;
-    opacity: 0.8;
+    background-color: var(--color-border); 
 }
 
 
-/* FLOATING WHATSAPP BUTTON */
-.whatsapp-float {
-    position: fixed;
-    width: 60px;
-    height: 60px;
-    bottom: 40px;
-    right: 40px;
-    background-color: #25d366; 
-    color: #FFF;
-    border-radius: 50px;
-    text-align: center;
-    box-shadow: 2px 2px 3px #999;
-    z-index: 100;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    font-size: 1.2em;
-    transition: width 0.3s ease-in-out, border-radius 0.3s ease-in-out;
-    overflow: hidden;
-}
-
-
-/* FOOTER (PERBAIKAN KERAPIHAN FINAL) */
+/* FOOTER (FINAL & RAPIH) */
 footer {
-    background-color: #1a1a1a; 
-    color: #f0f0f0;
+    background-color: var(--color-footer-bg); 
+    color: var(--color-footer-text);
     padding: 40px 0 0; 
-    font-size: 0.9em;
 }
 
 .footer-grid {
-    display: grid;
-    grid-template-columns: 2.5fr 1fr 1fr; 
-    gap: 30px; 
-    padding-bottom: 30px;
     border-bottom: 1px solid #333; 
-    text-align: left; 
 }
 
 .footer-column h4 {
-    color: #ce1126; 
-    font-size: 1em;
-    font-weight: 700;
-    margin-bottom: 20px;
-    text-transform: uppercase;
+    color: var(--color-primary); 
 }
 
-.footer-logo {
-    margin-bottom: 20px;
-}
-.footer-logo img {
-    max-width: 150px; 
-}
-
-.footer-address {
-    font-style: normal;
-    margin-bottom: 15px;
-    line-height: 1.5;
-}
-
-.contact-details h5 {
-    margin: 10px 0 5px;
-    font-weight: 700;
-    color: #fff;
-}
-.contact-details p {
-    margin: 0 0 10px;
-    color: #ccc;
-}
-.footer-links {
-    list-style: none;
-    padding: 0;
-}
-.footer-links li {
-    margin-bottom: 10px;
-}
-.footer-links a {
-    color: #ccc;
-    text-decoration: none;
-    transition: color 0.2s;
-}
-.footer-socials {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
-}
-.footer-socials i {
-    margin-right: 8px;
-    color: #ce1126;
-}
 .footer-copyright-text {
-    padding: 20px 0;
-    font-size: 0.75em;
-    line-height: 1.6;
-    color: #888;
+    color: var(--color-footer-text);
 }
 
-/* RESPONSIVENESS (FINAL & PRESISI) */
+/* ... (Media Queries tetap sama) ... */
 @media (max-width: 991px) {
     .footer-grid {
         grid-template-columns: repeat(2, 1fr); 
@@ -400,6 +242,9 @@ footer {
     }
 }
 @media (max-width: 480px) {
+    .header-controls {
+        gap: 5px;
+    }
     .header-logo {
         height: 25px; 
     }
@@ -413,20 +258,5 @@ footer {
     .card-title {
         text-align: center; 
         font-size: 1.3em;
-    }
-    .step-label {
-        font-size: 0.75em; 
-    }
-    .account-number-box {
-        font-size: 1em;
-        padding: 12px;
-    }
-    #copy-btn {
-        padding: 6px 10px;
-        font-size: 0.8em;
-    }
-    .copy-amount-btn {
-        padding: 12px 8px; 
-        font-size: 0.8em; 
     }
 }
