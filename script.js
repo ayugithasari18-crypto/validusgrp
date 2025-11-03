@@ -11,16 +11,11 @@ const dataRekening = document.getElementById('data-rekening');
 const errorState = document.getElementById('error-state');
 const accountNumberSpan = document.getElementById('account-number');
 const copyBtn = document.getElementById('copy-btn');
-
-// Elemen Form
 const topupInput = document.getElementById('topup-amount');
 const continueBtn = document.getElementById('continue-button'); 
 const copyAmountBtn = document.getElementById('copy-amount-btn'); 
-
-// Elemen Checklist
 const displayCleanAmount = document.getElementById('display-clean-amount');
 const displayBankName = document.getElementById('display-bank-name');
-
 const MIN_AMOUNT = 10000;
 
 
@@ -39,8 +34,6 @@ function formatRupiah(number) {
         maximumFractionDigits: 0
     }).format(number);
 }
-
-// --- FUNGSI SALIN DENGAN FLASH ANIMATION ---
 
 function applyFlashAnimation(element) {
     element.classList.add('highlight-flash');
@@ -89,24 +82,18 @@ function copyAccount() {
     });
 }
 
-
-// --- FUNGSI VALIDASI & CHECKLIST ---
-
 function updateTransferChecklist() {
     const amountClean = cleanRupiah(topupInput.value);
     const bankName = document.getElementById('bank-name').textContent;
     
-    // Update nominal di checklist
     if (amountClean && parseInt(amountClean, 10) >= MIN_AMOUNT) {
         displayCleanAmount.textContent = new Intl.NumberFormat('id-ID').format(parseInt(amountClean, 10));
     } else {
         displayCleanAmount.textContent = '0';
     }
 
-    // Update bank di checklist
     displayBankName.textContent = bankName !== 'N/A' ? bankName : 'N/A';
 }
-
 
 function checkFormValidity() {
     const amountClean = parseInt(cleanRupiah(topupInput.value), 10);
@@ -122,7 +109,6 @@ function checkFormValidity() {
         continueBtn.href = '#';
     }
 }
-
 
 function handleTopupInput(e) {
     let input = e.target.value;
@@ -150,7 +136,6 @@ function handleTopupBlur(e) {
     updateTransferChecklist(); 
 }
 
-// --- FUNGSI MEMBACA PARAMETER URL ---
 function getAmountFromUrl() {
     const urlParams = new URLSearchParams(window.location.search);
     let amount = urlParams.get('amount');
@@ -167,9 +152,10 @@ function getAmountFromUrl() {
 }
 
 
-// --- FUNGSI INTEGRASI API GET (Memuat Data Rekening) ---
+// --- FUNGSI INTEGRASI API GET (Logika State Diperbaiki) ---
 
 async function fetchBankData() {
+    // START: Hanya loading-state yang aktif, semua state lain disembunyikan
     loadingState.classList.remove('hidden'); 
     dataRekening.classList.add('hidden');    
     errorState.classList.add('hidden');      
@@ -196,8 +182,9 @@ async function fetchBankData() {
         document.getElementById('account-holder').textContent = data.name;
         accountNumberSpan.textContent = data.number;
         
-        // Sukses
+        // SUKSES: Sembunyikan Loading dan Error, Tampilkan Data
         loadingState.classList.add('hidden');
+        errorState.classList.add('hidden'); 
         dataRekening.classList.remove('hidden');
 
         getAmountFromUrl();
@@ -210,9 +197,11 @@ async function fetchBankData() {
 
         console.error("FATAL ERROR FETCH DATA:", errorMessage);
         
-        // Error
+        // ERROR: Sembunyikan Loading dan Data, Tampilkan Error
         loadingState.classList.add('hidden');
+        dataRekening.classList.add('hidden'); 
         errorState.classList.remove('hidden');
+        
         document.getElementById('error-detail-message').textContent = errorMessage; 
         
         updateTransferChecklist();
