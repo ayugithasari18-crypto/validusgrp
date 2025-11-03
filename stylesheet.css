@@ -14,7 +14,7 @@ body {
     margin: 0 auto;
 }
 
-/* HEADER */
+/* HEADER (TIDAK BERUBAH) */
 header {
     background-color: #ffffff; 
     padding: 15px 0;
@@ -64,19 +64,21 @@ main {
     background: #ffffff;
     padding: 30px;
     border-radius: 8px;
-    /* PENINGKATAN: Bayangan lebih halus dan profesional */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
     max-width: 450px;
     margin: 0 auto;
+    position: relative; /* Penting untuk penataan di mobile */
 }
 
-/* INDIKATOR KEAMANAN */
+/* INDIKATOR KEAMANAN (SECURITY FIX) */
 .security-lock-status {
     text-align: right;
     font-size: 0.75em;
-    color: #5cb85c; /* Hijau Keamanan */
-    margin-bottom: -15px; 
+    color: #5cb85c; 
+    margin-bottom: 5px; /* Ditingkatkan agar tidak tumpang tindih */
+    padding-top: 5px; /* Memberi sedikit ruang dari atas card */
     font-weight: 500;
+    display: block; /* Memastikan mengambil ruang baris penuh */
 }
 .security-lock-status i {
     margin-right: 5px;
@@ -88,7 +90,6 @@ main {
     padding-bottom: 15px;
     margin-top: 0;
     margin-bottom: 25px;
-    /* PENINGKATAN: Font lebih tebal */
     font-weight: 700; 
 }
 
@@ -201,7 +202,7 @@ main {
 }
 
 .detail-row strong {
-    color: #000; /* PENINGKATAN: Warna hitam pekat untuk data penting */
+    color: #000; 
     font-weight: 700;
 }
 
@@ -227,16 +228,17 @@ main {
     font-weight: 500;
     transition: background-color 0.2s;
     font-size: 0.9em;
+    flex-shrink: 0; /* FIX: Pastikan tombol tidak menyusut */
 }
 
 #copy-btn:hover {
-    background-color: #218838; /* PENINGKATAN: Darker hover state */
+    background-color: #218838; 
 }
 
 /* WAKTU PEMROSESAN */
 .processing-time-note {
     background-color: #f7f7f7;
-    border-left: 4px solid #007bff; /* Garis biru trust */
+    border-left: 4px solid #007bff; 
     padding: 10px;
     margin-top: 20px;
     font-size: 0.85em;
@@ -279,10 +281,11 @@ main {
     text-align: right;
     font-weight: 700;
     color: #333;
-    transition: border-color 0.2s, box-shadow 0.2s; /* PENINGKATAN: transisi untuk focus */
+    transition: border-color 0.2s, box-shadow 0.2s; 
+    /* FIX: Set min-width agar input tidak terlalu kecil di mobile */
+    min-width: 100px; 
 }
 
-/* PENINGKATAN: Gaya focus input */
 #topup-amount:focus {
     outline: none;
     border-color: #ce1126;
@@ -290,7 +293,7 @@ main {
 }
 
 .copy-amount-btn {
-    flex-shrink: 0; 
+    flex-shrink: 0; /* FIX: Pastikan tombol tidak menyusut */
     padding: 12px 15px;
     background-color: #007bff; 
     color: white;
@@ -321,7 +324,7 @@ main {
 }
 
 .transfer-checklist li i {
-    color: #28a745; /* Hijau Sukses */
+    color: #28a745; 
     margin-right: 10px;
 }
 
@@ -377,12 +380,12 @@ main {
 }
 
 @keyframes flash {
-    0% { background-color: #f7e8a3; } /* Kuning Flash */
-    100% { background-color: #f2f2f2; } /* Kembali ke warna asli */
+    0% { background-color: #f7e8a3; } 
+    100% { background-color: #f2f2f2; } 
 }
 
 
-/* FLOATING WHATSAPP BUTTON */
+/* FLOATING WHATSAPP BUTTON (TIDAK BERUBAH) */
 .whatsapp-float {
     position: fixed;
     width: 60px;
@@ -438,7 +441,7 @@ footer {
 
 /* ... (Gaya Footer lainnya tetap sama) ... */
 
-/* RESPONSIF */
+/* RESPONSIVENESS FIXES (PERBAIKAN KRITIS UNTUK MOBILE) */
 @media (max-width: 991px) {
     .footer-grid {
         grid-template-columns: repeat(2, 1fr); 
@@ -471,8 +474,36 @@ footer {
         font-size: 0.8em;
     }
     .payment-card {
-        padding: 20px;
+        padding: 20px; /* FIX: Kurangi padding card di mobile */
     }
+    
+    /* FIX: Kerapihan Judul dan Security Lock */
+    .security-lock-status {
+        text-align: center; /* Pindahkan ke tengah agar tidak terlalu mepet */
+        margin-bottom: 10px;
+    }
+    
+    /* FIX: Tombol Salin di Nominal (Memastikan tombol tidak keluar batas) */
+    .nominal-input-group {
+        flex-direction: row; /* Tetap row, tapi pastikan elemen tidak menyusut paksa */
+        gap: 8px; /* Jarak sedikit dikurangi */
+    }
+    
+    .copy-amount-btn {
+        padding: 12px 10px; /* Padding lebih ramping */
+        font-size: 0.8em; /* Ukuran font lebih kecil */
+    }
+
+    /* FIX: Tombol Salin di Rekening */
+    .account-number-box {
+        font-size: 1em;
+        padding: 12px;
+    }
+    #copy-btn {
+        padding: 6px 10px;
+        font-size: 0.8em;
+    }
+    
     .whatsapp-float {
         right: 20px;
         bottom: 20px;
