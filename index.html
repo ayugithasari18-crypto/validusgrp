@@ -3,37 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-key="page_title">Validus - Pembayaran Isi Ulang Saldo</title>
+    <title>Validus - Pembayaran Isi Ulang Saldo</title>
     
     <link rel="icon" href="https://validusgrp.com/wp-content/themes/validus/favicon.ico" type="image/x-icon">
     
     <link rel="stylesheet" href="stylesheet.css">
     
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body data-lang="id" data-theme="light"> 
+<body>
 
     <header>
         <div class="container header-container">
             <a href="https://aksesmembership.vercel.app/validus/login" class="header-logo-link">
                 <img src="https://validusgrp.com/wp-content/uploads/2022/04/validus-capital-logo-red.png" alt="Validus Capital Logo" class="header-logo">
             </a>
-            
-            <div class="header-controls">
-                <button id="theme-toggle" class="control-button" aria-label="Toggle dark mode">
-                    <i class="fas fa-moon"></i>
-                </button>
-                
-                <div class="language-dropdown">
-                    <select id="language-select" class="control-select">
-                        <option value="id">🇮🇩 ID</option>
-                        <option value="en">🇺🇸 EN</option>
-                    </select>
-                </div>
-
-                <a href="https://aksesmembership.vercel.app/validus/login" class="login-button" data-key="login_button">Login</a>
-            </div>
+            <a href="https://aksesmembership.vercel.app/validus/login" class="login-button">Login</a>
         </div>
     </header>
 
@@ -42,20 +28,20 @@
             <div class="payment-card">
                 
                 <p class="security-lock-status">
-                    <i class="fas fa-lock"></i> <span data-key="security_status">Koneksi Aman, Transaksi Dilindungi.</span>
+                    <i class="fas fa-lock"></i> Koneksi Aman, Transaksi Dilindungi.
                 </p>
 
-                <h2 class="card-title" data-key="card_title">Pembayaran Isi Ulang Saldo</h2>
+                <h2 class="card-title">Pembayaran Isi Ulang Saldo</h2>
                 
                 <div class="elegant-step-progress">
                     <div class="step-item active">
                         <div class="step-icon"><i class="fas fa-hand-holding-dollar"></i></div>
-                        <span class="step-label" data-key="step_1">1. Transfer Dana</span>
+                        <span class="step-label">1. Transfer Dana</span>
                     </div>
                     <div class="step-separator"></div>
                     <div class="step-item">
                         <div class="step-icon"><i class="fas fa-external-link-alt"></i></div>
-                        <span class="step-label" data-key="step_2">2. Akses Platform</span>
+                        <span class="step-label">2. Akses Platform</span>
                     </div>
                 </div>
 
@@ -63,35 +49,35 @@
                     
                     <div id="loading-state" class="state active">
                         <div class="modern-spinner"></div>
-                        <p class="loading-message" data-key="loading_message">Memuat data rekening Validus, mohon tunggu...</p>
+                        <p class="loading-message">Memuat data rekening Validus, mohon tunggu...</p>
                     </div>
 
                     <div id="error-state" class="state hidden">
                         <div class="error-icon"><i class="fas fa-exclamation-triangle"></i></div>
-                        <p class="error-message" data-key="error_message">Gagal memuat data rekening.</p>
-                        <small id="error-detail-message" style="color:#ce1126; font-size:0.8em;"></small>
+                        <p class="error-message">Gagal memuat data rekening.</p>
+                        <small id="error-detail-message" style="color:#ce1126; font-size:0.8em;">Silakan periksa koneksi internet Anda atau muat ulang halaman.</small>
                     </div>
 
                     <div id="data-rekening" class="data-content hidden">
                         <p class="section-title">REKENING TUJUAN TRANSFER:</p>
                         
                         <div class="detail-row">
-                            <span data-key="rek_bank_label">Nama Bank:</span>
+                            <span>Nama Bank:</span>
                             <strong id="bank-name">N/A</strong>
                         </div>
                         <div class="detail-row">
-                            <span data-key="rek_holder_label">Nama Pemilik:</span>
+                            <span>Nama Pemilik:</span>
                             <strong id="account-holder">N/A</strong>
                         </div>
 
-                        <p class="section-title margin-top-15" data-key="rek_number_label">NOMOR REKENING TUJUAN:</p>
+                        <p class="section-title margin-top-15">NOMOR REKENING TUJUAN:</p>
                         <div class="account-number-box">
                             <span id="account-number">N/A</span>
-                            <button id="copy-btn" data-key="copy_button"><i class="fas fa-copy"></i> SALIN</button>
+                            <button id="copy-btn"><i class="fas fa-copy"></i> SALIN</button>
                         </div>
                         
                         <div class="processing-time-note">
-                            <i class="fas fa-clock"></i> <span data-key="processing_note">Pemrosesan Saldo: **1-15 Menit** pada jam kerja (09:00 - 17:00 WIB).</span>
+                            <i class="fas fa-clock"></i> Pemrosesan Saldo: **1-15 Menit** pada jam kerja (09:00 - 17:00 WIB).
                         </div>
                     </div>
                 </div>
@@ -99,35 +85,26 @@
                 <hr class="card-separator">
 
                 <div class="topup-form">
-                    <label for="topup-amount" data-key="transfer_amount_label">Jumlah yang Akan Ditransfer:</label>
+                    <label for="topup-amount">Jumlah yang Akan Ditransfer:</label>
                     
                     <div class="nominal-input-group">
-                        <input type="text" id="topup-amount" data-key="placeholder_min" placeholder="Minimal Rp10.000" inputmode="numeric">
-                        <button id="copy-amount-btn" class="copy-amount-btn" data-key="copy_button_amount"><i class="fas fa-copy"></i> SALIN</button>
+                        <input type="text" id="topup-amount" placeholder="Minimal Rp10.000" inputmode="numeric">
+                        
+                        <button id="copy-amount-btn" class="copy-amount-btn"><i class="fas fa-copy"></i> SALIN</button>
                     </div>
                     
-                    <p class="section-title margin-top-15" style="margin-top: 30px;" data-key="checklist_title">PASTIKAN SEBELUM TRANSFER:</p>
+                    <p class="section-title margin-top-15" style="margin-top: 30px;">PASTIKAN SEBELUM TRANSFER:</p>
                     <ul class="transfer-checklist">
-                        <li><i class="fas fa-check-circle"></i> <span data-key="check_1">Nominal Transfer sudah sesuai</span> (<strong style="color: #ce1126;">Rp<span id="display-clean-amount">0</span></strong>).</li>
-                        <li><i class="fas fa-check-circle"></i> <span data-key="check_2">Bank Tujuan:</span> <strong style="color: #ce1126;"><span id="display-bank-name">N/A</span></strong>.</li>
-                        <li><i class="fas fa-check-circle"></i> <span data-key="check_3">Transfer **dapat dari rekening mana saja**, pastikan **bukti transfer dikirimkan kepada Mentor/Guru** Anda untuk diproses.</span></li>
+                        <li><i class="fas fa-check-circle"></i> Nominal Transfer sudah sesuai (<strong style="color: #ce1126;">Rp<span id="display-clean-amount">0</span></strong>).</li>
+                        <li><i class="fas fa-check-circle"></i> Bank Tujuan: <strong style="color: #ce1126;"><span id="display-bank-name">N/A</span></strong>.</li>
+                        <li><i class="fas fa-check-circle"></i> Transfer menggunakan Nama Anda yang terdaftar di sistem.</li>
                     </ul>
 
-                    <div class="mentor-confirmation-section">
-                        <p class="section-title" style="margin-top: 10px; color: #ce1126;" data-key="post_transfer_title">SETELAH TRANSFER:</p>
-                        <a id="confirm-mentor-button" 
-                           class="confirm-button" 
-                           href="https://wa.me/6281234567890?text=Halo%20Mentor%2FGuru%2C%20saya%20sudah%20melakukan%20transfer%20isi%20ulang%20saldo%20sebesar%20Rp[NOMINAL].%20Berikut%20bukti%20transfer%20saya%20(mohon%20unggah%20di%20sini)." 
-                           target="_blank">
-                            <i class="fab fa-whatsapp"></i> <span data-key="mentor_button">BERIKAN BUKTI KEPADA MENTOR</span>
-                        </a>
-                    </div>
-                    
                     <a id="continue-button" class="continue-button disabled" href="#">
-                        <i class="fas fa-sign-in-alt"></i> <span data-key="continue_button">LANJUTKAN KE PLATFORM</span>
+                        <i class="fas fa-sign-in-alt"></i> LANJUTKAN KE PLATFORM
                     </a>
                     <p class="note-transfer-auto">
-                        <i class="fas fa-exclamation-circle"></i> <span data-key="continue_note">Catatan: Tombol di atas hanya mengarahkan ke halaman login. Saldo terisi otomatis setelah verifikasi mentor.</span>
+                        <i class="fas fa-exclamation-circle"></i> Catatan: Tombol di atas hanya mengarahkan ke halaman login. Saldo terisi otomatis setelah transfer.
                     </p>
                 </div>
 
@@ -139,27 +116,27 @@
         <div class="container footer-grid">
             <div class="footer-column contact-info-column">
                 <div class="footer-logo">
-                    <img src="https://validusgrp.com/wp-content/uploads/2022/04/validus-capital-logo-red.png" alt="Validus Capital Logo"> 
+                    <img src="https://validusgrp.com/wp-content/uploads/2022/04/validus-capital-logo.png" alt="Validus Capital Logo" width="200px">
                 </div>
-                <h4><span data-key="contact_us">CONTACT US</span></h4>
+                <h4>CONTACT US</h4>
                 <address class="footer-address">
-                    <i class="fa-solid fa-location-dot"></i> 12 Marina View, #12-02(G), Asia Square Tower 2, <br>Singapore 018961 | <a href="https://www.google.com/maps" target="_blank" rel="noopener" data-key="view_map">View Map</a>
+                    <i class="fa-solid fa-location-dot"></i> 12 Marina View, #12-02(G), Asia Square Tower 2, <br>Singapore 018961 | <a href="https://www.google.com/maps" target="_blank" rel="noopener">View Map</a>
                 </address>
                 <div class="contact-details">
-                    <h5><span data-key="operating_hours_title">Operating Hours</span></h5>
-                    <p data-key="operating_hours_detail">Mon – Fri (except holidays) 9am to 6pm</p>
-                    <h5><span data-key="enquiries_title">General enquiries:</span></h5>
+                    <h5>Operating Hours</h5>
+                    <p>Mon – Fri (except holidays) 9am to 6pm</p>
+                    <h5>General enquiries:</h5>
                     <p><a href="mailto:hr@validusgrp.com">hr@validusgrp.com</a></p>
                 </div>
             </div>
 
             <div class="footer-column links-column">
-                <h4><span data-key="quick_links_title">QUICK LINKS</span></h4>
+                <h4>QUICK LINKS</h4>
                 <ul class="footer-links">
-                    <li><a href="https://validusgrp.com/" aria-current="page" data-key="home">Home</a></li>
-                    <li><a href="https://validusgrp.com/who-we-are/" data-key="who_we_are">Who We Are</a></li>
-                    <li><a href="https://validusgrp.com/resources/news/" data-key="news">News & Insights</a></li>
-                    <li><a href="#contact_us" data-key="contact_us">Contact Us</a></li>
+                    <li><a href="https://validusgrp.com/" aria-current="page">Home</a></li>
+                    <li><a href="https://validusgrp.com/who-we-are/">Who We Are</a></li>
+                    <li><a href="https://validusgrp.com/resources/news/">News & Insights</a></li>
+                    <li><a href="#contact_us">Contact Us</a></li>
                 </ul>
                 <ul class="footer-socials">
                     <li>
@@ -171,19 +148,19 @@
             </div>
 
             <div class="footer-column links-column">
-                <h4><span data-key="useful_links_title">USEFUL LINKS</span></h4>
+                <h4>USEFUL LINKS</h4>
                 <ul class="footer-links">
-                    <li><a target="_blank" rel="noopener" href="https://validusgrp.com/assets/terms-of-use.pdf" data-key="terms_of_use">Terms of Use</a></li>
-                    <li><a target="_blank" rel="noopener" href="https://validusgrp.com/assets/privacy-policy.pdf" data-key="privacy_policy">Privacy Policy</a></li>
-                    <li><a target="_blank" rel="noopener" href="https://validusgrp.com/assets/fraud-disclaimer.pdf" data-key="fraud_disclaimer">Fraud Disclaimer</a></li>
-                    <li><a target="_blank" rel="noopener" href="https://validusgrp.com/assets/vulnerability-disclosure-policy.pdf" data-key="vulnerability_policy">Vulnerability Disclosure Policy</a></li>
+                    <li><a target="_blank" rel="noopener" href="https://validusgrp.com/assets/terms-of-use.pdf">Terms of Use</a></li>
+                    <li><a target="_blank" rel="noopener" href="https://validusgrp.com/assets/privacy-policy.pdf">Privacy Policy</a></li>
+                    <li><a target="_blank" rel="noopener" href="https://validusgrp.com/assets/fraud-disclaimer.pdf">Fraud Disclaimer</a></li>
+                    <li><a target="_blank" rel="noopener" href="https://validusgrp.com/assets/vulnerability-disclosure-policy.pdf">Vulnerability Disclosure Policy</a></li>
                 </ul>		
             </div>
         </div>
         
         <div class="footer-bottom-bar">
             <div class="container">
-                <div class="footer-copyright-text" data-key="copyright_text">
+                <div class="footer-copyright-text">
                     Validus Investment Holdings Pte Ltd. (UEN 201803167H) owns and operates SME supply chain financing businesses across Southeast Asia. As one of the largest and leading FinTech in SME financing, Validus is dedicated to fuelling business growth with fast, flexible, and accessible financing solutions.<br><br>The information on this website is provided for general purposes only and does not take into account your specific financial circumstances, investment goals, or individual needs. It should not be construed as financial advice. Past performance may not be indicative of future results. Full Terms and Conditions are available upon application. Copyright © 2023 Validus. All rights reserved.				
                 </div>
             </div>
@@ -191,7 +168,7 @@
     </footer>
     
     <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20memiliki%20pertanyaan%20mengenai%20isi%20ulang%20saldo." target="_blank" class="whatsapp-float">
-        <i class="fab fa-whatsapp"></i> <span data-key="help_button">Bantuan</span>
+        <i class="fab fa-whatsapp"></i> Bantuan
     </a>
 
     <script src="script.js"></script>
