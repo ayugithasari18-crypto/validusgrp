@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Validus - Pembayaran Isi Ulang Saldo</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>Akses Member Validus Grup</title>
+    <meta name="description" content="Akses portal, cek rekening terbaru, dan lakukan pembayaran QRIS di sini." />
+
+    <meta property="og:title" content="Validus Grup: Akses Portal Member Resmi" />
+    <meta property="og:description" content="Sistem Akses Cepat dan Aman. Cek Update Rekening Terbaru Anda secara Realtime di Platform Resmi Validus Grup." />
+    <meta property="og:image" content="https://validusgrp.com/wp-content/uploads/2022/04/validus-capital-logo-red.png" />
+    <meta property="og:url" content="https://aksesmembership.vercel.app/validus/" />
+    <meta property="og:type" content="website" />
     
     <link rel="icon" href="https://validusgrp.com/wp-content/themes/validus/favicon.ico" type="image/x-icon">
     
@@ -13,6 +21,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    <div id="root"></div>
 
     <header>
         <div class="container header-container">
@@ -172,5 +181,7 @@
     </a>
 
     <script src="script.js"></script>
+    
+    <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
